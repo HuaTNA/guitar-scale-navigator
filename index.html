@@ -8715,8 +8715,8 @@ canvas{display:block;}
 .scalechord-table th{padding:6px 10px;background:var(--paper3);color:var(--ink3);font-weight:400;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;border:1px solid var(--rule);text-align:left;}
 .scalechord-table td{padding:6px 10px;border:1px solid var(--rule);color:var(--ink2);}
 .scalechord-table tr:hover td{background:var(--paper3);}
-.sc-good{color:var(--teal);font-weight:600;}
-.sc-ok{color:var(--gold);}
+.scalechord-table .sc-good{color:var(--teal);font-weight:600;}
+.scalechord-table .sc-ok{color:var(--gold);}
 
 /* ── Capo calc ── */
 .capo-box{background:var(--paper2);border:1px solid var(--rule);padding:18px;margin-bottom:14px;}
@@ -8827,23 +8827,24 @@ canvas{display:block;}
       <div class="chapter" onclick="switchTab(11)" data-i18n-text="tab.compare"><span class="ch-num">12</span>Scale Compare</div>
       <div class="chapter" onclick="switchTab(12)" data-i18n-text="tab.intervals"><span class="ch-num">13</span>Intervals</div>
       <div class="chapter" onclick="switchTab(13)" data-i18n-text="tab.capo"><span class="ch-num">14</span>Capo Calculator</div>
+      <div class="chapter" onclick="switchTab(14)" data-i18n-text="tab.fifths"><span class="ch-num">15</span>Circle of Fifths</div>
     </div>
   </div>
 
   <div class="nav-category">
     <div class="cat-label" data-i18n="cat.practice">Practice</div>
     <div class="cat-tabs">
-      <div class="chapter" onclick="switchTab(14)" data-i18n-text="tab.metro"><span class="ch-num">15</span>Metronome</div>
-      <div class="chapter" onclick="switchTab(15)" data-i18n-text="tab.log"><span class="ch-num">16</span>Practice Log</div>
-      <div class="chapter" onclick="switchTab(16)" data-i18n-text="tab.quiz"><span class="ch-num">17</span>Quiz</div>
+      <div class="chapter" onclick="switchTab(15)" data-i18n-text="tab.metro"><span class="ch-num">16</span>Metronome</div>
+      <div class="chapter" onclick="switchTab(16)" data-i18n-text="tab.log"><span class="ch-num">17</span>Practice Log</div>
+      <div class="chapter" onclick="switchTab(17)" data-i18n-text="tab.quiz"><span class="ch-num">18</span>Quiz</div>
     </div>
   </div>
 
   <div class="nav-category">
     <div class="cat-label" data-i18n="cat.audio">Audio</div>
     <div class="cat-tabs">
-      <div class="chapter" onclick="switchTab(17)" data-i18n-text="tab.tuner"><span class="ch-num">18</span>Tuner</div>
-      <div class="chapter" onclick="switchTab(18)" data-i18n-text="tab.tab"><span class="ch-num">19</span>Score→TAB</div>
+      <div class="chapter" onclick="switchTab(18)" data-i18n-text="tab.tuner"><span class="ch-num">19</span>Tuner</div>
+      <div class="chapter" onclick="switchTab(19)" data-i18n-text="tab.tab"><span class="ch-num">20</span>Score→TAB</div>
     </div>
   </div>
 
@@ -9087,7 +9088,35 @@ canvas{display:block;}
   <div class="annotation" data-i18n="ann.capo">Use a capo to play in a different key using familiar open chord shapes. <strong>Capo on fret X</strong> means your open strings now sound X semitones higher.</div>
 </div>
 
-<!-- 15 Metronome -->
+<!-- 15 Circle of Fifths -->
+<div class="panel" id="panel-fifths">
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.fifths">Theory · 15</span><span class="sec-title" data-i18n="sectitle.fifths">Circle of Fifths</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:4px 0 10px">
+    <canvas id="cv-fifths" width="500" height="500" style="max-width:100%;cursor:pointer;touch-action:manipulation"></canvas>
+    <div id="fifths-info" style="max-width:500px;width:100%"></div>
+    <div style="max-width:500px;width:100%;border:1px solid var(--rule);background:var(--paper2);border-radius:3px;padding:12px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <button class="metro-btn" id="fp-btn" onclick="toggleFifthsPractice()" data-i18n="btn.start">Start</button>
+      <div class="beat-visual" id="fp-beat-dots"></div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2)">
+        <span>BPM</span>
+        <input type="number" id="fp-bpm" value="60" min="40" max="200" style="width:52px;padding:3px 6px;border:1px solid var(--rule);background:var(--paper3);color:var(--ink);font-size:12px;border-radius:2px">
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2)">
+        <span data-i18n="fp.barsperkey">Bars/key</span>
+        <select id="fp-bars" style="padding:3px 6px;border:1px solid var(--rule);background:var(--paper3);color:var(--ink);font-size:12px;border-radius:2px">
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="4">4</option>
+          <option value="8">8</option>
+        </select>
+      </div>
+      <div id="fp-status" style="margin-left:auto;font-size:13px;font-weight:600;color:var(--red)"></div>
+    </div>
+  </div>
+  <div class="annotation" data-i18n="ann.fifths">The Circle of Fifths arranges all 12 keys by ascending perfect fifths. Adjacent keys share 6 of 7 notes — <strong>the closer two keys are, the smoother the modulation</strong>. Outer ring = major keys, inner ring = relative minors. Click any key to see its notes.</div>
+</div>
+
+<!-- 16 Metronome -->
 <div class="panel" id="panel-metro">
   <div class="sec-head"><span class="sec-num" data-i18n="secnum.metro">Practice · 15</span><span class="sec-title" data-i18n="sectitle.metro">Metronome</span></div>
   <div class="metronome-box">
@@ -9239,6 +9268,7 @@ canvas{display:block;}
   <div class="annotation" style="margin-top:14px" data-i18n="ann.tab">AI converts sheet music images to guitar TAB. <strong>Best for single-voice melodies.</strong> Requires internet connection.</div>
 </div>
 
+<!-- 20 Circle of Fifths -->
 </div><!-- /page -->
 
 <div class="page-footer">
@@ -9271,7 +9301,7 @@ const TRANSLATIONS={
     'tab.modes':'Modes','tab.nps':'3NPS','tab.fretmap':'Fretboard Map','tab.chords':'Chord Diagrams',
     'tab.prog':'Chord Progressions','tab.scalechord':'Scale→Chord Map','tab.compare':'Scale Compare',
     'tab.intervals':'Intervals','tab.capo':'Capo Calculator','tab.metro':'Metronome',
-    'tab.log':'Practice Log','tab.quiz':'Quiz','tab.tuner':'Tuner','tab.tab':'Score→TAB',
+    'tab.log':'Practice Log','tab.quiz':'Quiz','tab.tuner':'Tuner','tab.tab':'Score→TAB','tab.fifths':'Circle of Fifths',
     'secnum.major':'Scales · 1','sectitle.major':'Major Scale — 5 Modal Shapes',
     'secnum.minor':'Scales · 2','sectitle.minor':'Minor Pentatonic Scale',
     'secnum.blues':'Scales · 3','sectitle.blues':'Blues Scale',
@@ -9291,6 +9321,7 @@ const TRANSLATIONS={
     'secnum.quiz':'Practice · 17','sectitle.quiz':'Fretboard Quiz',
     'secnum.tuner':'Audio · 18','sectitle.tuner':'Chromatic Tuner',
     'secnum.tab':'Audio · 19','sectitle.tab':'Sheet Music → Guitar TAB',
+    'secnum.fifths':'Theory · 15','sectitle.fifths':'Circle of Fifths',
     'ctrl.key':'Key','ctrl.shape':'Shape','ctrl.label':'Label:','ctrl.position':'Position','ctrl.mode':'Mode',
     'ctrl.chord':'Chord','ctrl.type':'Type','ctrl.highlight':'Highlight note','ctrl.fretrange':'Fret range',
     'ctrl.scaletype':'Scale type','ctrl.commonprog':'Common progressions','ctrl.timesig':'Time Sig',
@@ -9338,6 +9369,8 @@ const TRANSLATIONS={
     'ann.quiz':'<strong>Note Names</strong> — string + fret → note. <strong>Scale Degrees</strong> — degree in a scale context. <strong>Shape ID</strong> — name the major shape. <strong>Intervals</strong> — name the interval between two notes.',
     'ann.tuner':'Click <strong>Enable Microphone</strong> to start chromatic tuning. The tuner detects pitch in real time and shows how far you are from the nearest note in cents (100 cents = 1 semitone). Or click any reference pitch to hear the correct note.',
     'ann.tab':'AI converts sheet music images to guitar TAB. <strong>Best for single-voice melodies.</strong> Requires internet connection.',
+    'ann.fifths':'The Circle of Fifths arranges all 12 keys by ascending perfect fifths. Adjacent keys share 6 of 7 notes — <strong>the closer two keys are, the smoother the modulation</strong>. Outer ring = major keys, inner ring = relative minors. Click any key to see its notes.',
+    'fp.barsperkey':'Bars/key',
   },
   zh:{
     'header.pre':'完整吉他指板导航工具',
@@ -9348,7 +9381,7 @@ const TRANSLATIONS={
     'tab.modes':'调式','tab.nps':'每弦3音','tab.fretmap':'指板图','tab.chords':'和弦图',
     'tab.prog':'和弦进行','tab.scalechord':'音阶和弦对照','tab.compare':'音阶对比',
     'tab.intervals':'音程计算','tab.capo':'变调夹','tab.metro':'节拍器',
-    'tab.log':'练习日志','tab.quiz':'测验','tab.tuner':'调音器','tab.tab':'乐谱→TAB',
+    'tab.log':'练习日志','tab.quiz':'测验','tab.tuner':'调音器','tab.tab':'乐谱→TAB','tab.fifths':'五度圈',
     'secnum.major':'音阶 · 1','sectitle.major':'大调音阶 — 5种指型',
     'secnum.minor':'音阶 · 2','sectitle.minor':'小调五声音阶',
     'secnum.blues':'音阶 · 3','sectitle.blues':'蓝调音阶',
@@ -9368,6 +9401,7 @@ const TRANSLATIONS={
     'secnum.quiz':'练习 · 17','sectitle.quiz':'指板测验',
     'secnum.tuner':'音频 · 18','sectitle.tuner':'半音调音器',
     'secnum.tab':'音频 · 19','sectitle.tab':'乐谱 → 吉他TAB',
+    'secnum.fifths':'乐理 · 15','sectitle.fifths':'五度圈',
     'ctrl.key':'调','ctrl.shape':'指型','ctrl.label':'标注：','ctrl.position':'把位','ctrl.mode':'调式',
     'ctrl.chord':'和弦','ctrl.type':'类型','ctrl.highlight':'高亮音符','ctrl.fretrange':'品格范围',
     'ctrl.scaletype':'音阶类型','ctrl.commonprog':'常用和弦进行','ctrl.timesig':'拍号',
@@ -9415,6 +9449,8 @@ const TRANSLATIONS={
     'ann.quiz':'<strong>音名</strong>——弦+品位→音符。<strong>级数</strong>——音阶中的级数。<strong>指型名</strong>——说出大调指型名称。<strong>音程</strong>——说出两个音之间的音程。',
     'ann.tuner':'点击<strong>开启麦克风</strong>开始半音调音。调音器实时检测音高，以音分显示与最近音符的偏差（100音分=1个半音）。或点击参考音高听正确的音。',
     'ann.tab':'AI将乐谱图片转换为吉他TAB谱。<strong>最适合单声部旋律。</strong>需要网络连接。',
+    'ann.fifths':'五度圈将12个调按纯五度升序排列。相邻调共享6/7个音符——<strong>两个调在圈上越近，转调越流畅</strong>。外圈=大调，内圈=关系小调。点击任意调查看音符。',
+    'fp.barsperkey':'每调小节',
   }
 };
 
@@ -10077,7 +10113,7 @@ function dScaleChord(){
     const pct=matching/total;
     let cls='',tip='';
     if(pct===1){cls='sc-good';tip='Perfect fit — all chord tones in scale';}
-    else if(pct>=0.67){cls='sc-ok';tip='Workable — most tones fit';}
+    else if(pct>=2/3){cls='sc-ok';tip='Workable — most tones fit';}
     else{tip='Avoid — chord tones clash with scale';}
     const bar='█'.repeat(Math.round(pct*5))+'░'.repeat(5-Math.round(pct*5));
     return `<tr><td>${name}</td><td>${type}</td><td class="${cls}">${bar} ${matching}/${total}</td><td style="color:var(--ink4);font-size:10px">${tip}</td></tr>`;
@@ -10531,10 +10567,11 @@ function renderTab(text){
 // ═══════════════════════════════════════════
 const PANEL_MAP=[
   'major','minor','blues','natminor','harmminor','modes','3nps','fretmap',
-  'chords','prog','scalechord','compare','intervals','capo',
+  'chords','prog','scalechord','compare','intervals','capo','fifths',
   'metro','log','quiz','tuner','tab'
 ];
 function switchTab(idx){
+  if(fpRunning && PANEL_MAP[idx]!=='fifths') stopFP();
   document.querySelectorAll('.chapter').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
   const id=PANEL_MAP[idx];
@@ -10548,9 +10585,304 @@ function switchTab(idx){
   else if(id==='capo')dCapo();
   else if(id==='metro')buildBeatVis();
   else if(id==='log')renderLog();
+  else if(id==='fifths')dFifths();
 }
 
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+// CIRCLE OF FIFTHS
+// ═══════════════════════════════════════════
+const FIFTHS_MAJOR=['C','G','D','A','E','B','F♯/G♭','D♭','A♭','E♭','B♭','F'];
+const FIFTHS_MINOR=['Am','Em','Bm','F♯m','C♯m','G♯m','E♭m','B♭m','Fm','Cm','Gm','Dm'];
+const FIFTHS_ACC=['0','1♯','2♯','3♯','4♯','5♯','6♯/♭','5♭','4♭','3♭','2♭','1♭'];
+const FIFTHS_NOTES=[
+  ['C','D','E','F','G','A','B'],
+  ['G','A','B','C','D','E','F♯'],
+  ['D','E','F♯','G','A','B','C♯'],
+  ['A','B','C♯','D','E','F♯','G♯'],
+  ['E','F♯','G♯','A','B','C♯','D♯'],
+  ['B','C♯','D♯','E','F♯','G♯','A♯'],
+  ['F♯','G♯','A♯','B','C♯','D♯','E♯'],
+  ['D♭','E♭','F','G♭','A♭','B♭','C'],
+  ['A♭','B♭','C','D♭','E♭','F','G'],
+  ['E♭','F','G','A♭','B♭','C','D'],
+  ['B♭','C','D','E♭','F','G','A'],
+  ['F','G','A','B♭','C','D','E'],
+];
+const FIFTHS_CHORDS=[
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+  ['I','ii','iii','IV','V','vi','vii°'],
+];
+let fifthsSel=-1;
+
+function dFifths(){
+  const canvas=document.getElementById('cv-fifths');
+  if(!canvas)return;
+  // Set canvas resolution to match display size
+  const size=Math.min(500, canvas.parentElement.clientWidth||500);
+  canvas.width=size; canvas.height=size;
+  drawFifthsCircle();
+  // Remove old listener by cloning
+  const c2=canvas.cloneNode(true);
+  canvas.parentNode.replaceChild(c2,canvas);
+  c2.addEventListener('click',e=>{
+    const rect=c2.getBoundingClientRect();
+    const sx=c2.width/rect.width, sy=c2.height/rect.height;
+    const dx=(e.clientX-rect.left)*sx - c2.width/2;
+    const dy=(e.clientY-rect.top)*sy - c2.height/2;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const r=c2.width/2;
+    if(dist>r*0.36 && dist<r*0.96){
+      let ang=Math.atan2(dy,dx)+Math.PI/2+Math.PI/12;
+      if(ang<0)ang+=Math.PI*2;
+      if(ang>=Math.PI*2)ang-=Math.PI*2;
+      const seg=Math.floor(ang/(Math.PI*2/12))%12;
+      fifthsSel=(fifthsSel===seg)?-1:seg;
+      drawFifthsCircle();
+      updateFifthsInfo();
+    }
+  });
+  updateFifthsInfo();
+}
+
+function drawFifthsCircle(){
+  const canvas=document.getElementById('cv-fifths');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const cx=W/2, cy=H/2, r=W/2;
+  const Ro=r*0.96, Rmaj=r*0.72, Racc=r*0.54, Rmin=r*0.36;
+  const seg=Math.PI*2/12;
+  const off=-Math.PI/2-seg/2;
+  ctx.clearRect(0,0,W,H);
+  // Detect dark mode via body background
+  const isDark=getComputedStyle(document.body).getPropertyValue('--paper').trim().startsWith('#1')||
+               getComputedStyle(document.body).getPropertyValue('color-scheme').includes('dark');
+  const COL={
+    majA: isDark?'#2e2820':'#f0ebe3',
+    majB: isDark?'#252018':'#e8e0d5',
+    majSel:'#8b2020',
+    accBg: isDark?'#1e1a14':'#f7f3ee',
+    accSel:'rgba(139,32,32,0.22)',
+    minBg: isDark?'#2a2218':'#ede6da',
+    minSel:'rgba(139,32,32,0.32)',
+    stroke: isDark?'#4a3e2e':'#c4b49e',
+    majTxt: isDark?'#e8dcc8':'#2d2320',
+    majTxtSel:'#fff',
+    accTxt: isDark?'#9a8a70':'#8a7a6a',
+    accTxtSel:'#c06040',
+    minTxt: isDark?'#c8b898':'#4a3a2a',
+    minTxtSel:'#fff8f0',
+    centerBg: isDark?'#1e1a14':'#f0ebe3',
+    centerTxt: isDark?'#c8b898':'#6a5a4a',
+  };
+  for(let i=0;i<12;i++){
+    const a0=off+i*seg, a1=a0+seg;
+    const isSel=i===fifthsSel;
+    // Major outer ring
+    _arc(ctx,cx,cy,Rmaj,Ro,a0,a1, isSel?COL.majSel:(i%2===0?COL.majA:COL.majB), COL.stroke);
+    // Accidentals middle ring
+    _arc(ctx,cx,cy,Racc,Rmaj,a0,a1, isSel?COL.accSel:COL.accBg, COL.stroke);
+    // Minor inner ring
+    _arc(ctx,cx,cy,Rmin,Racc,a0,a1, isSel?COL.minSel:COL.minBg, COL.stroke);
+    const mid=off+i*seg+seg/2;
+    const cos=Math.cos(mid), sin=Math.sin(mid);
+    // Major label
+    ctx.fillStyle=isSel?COL.majTxtSel:COL.majTxt;
+    const majFontSize=Math.max(11,Math.floor(r*0.085));
+    ctx.font=`bold ${majFontSize}px sans-serif`;
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    const majLabel=FIFTHS_MAJOR[i];
+    // Handle two-line labels like F♯/G♭
+    if(majLabel.includes('/')){
+      const parts=majLabel.split('/');
+      const my=(Ro+Rmaj)/2;
+      ctx.font=`bold ${Math.floor(majFontSize*0.82)}px sans-serif`;
+      ctx.fillText(parts[0], cx+(my-r*0.07)*cos, cy+(my-r*0.07)*sin);
+      ctx.fillText(parts[1], cx+(my+r*0.07)*cos, cy+(my+r*0.07)*sin);
+    } else {
+      ctx.fillText(majLabel, cx+(Ro+Rmaj)/2*cos, cy+(Ro+Rmaj)/2*sin);
+    }
+    // Accidentals label
+    ctx.fillStyle=isSel?COL.accTxtSel:COL.accTxt;
+    ctx.font=`${Math.max(9,Math.floor(r*0.058))}px sans-serif`;
+    ctx.fillText(FIFTHS_ACC[i], cx+(Rmaj+Racc)/2*cos, cy+(Rmaj+Racc)/2*sin);
+    // Minor label
+    ctx.fillStyle=isSel?COL.minTxtSel:COL.minTxt;
+    ctx.font=`${Math.max(9,Math.floor(r*0.062))}px sans-serif`;
+    ctx.fillText(FIFTHS_MINOR[i], cx+(Racc+Rmin)/2*cos, cy+(Racc+Rmin)/2*sin);
+  }
+  // Center disc
+  ctx.beginPath(); ctx.arc(cx,cy,Rmin,0,Math.PI*2);
+  ctx.fillStyle=COL.centerBg; ctx.fill();
+  ctx.strokeStyle=COL.stroke; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle=COL.centerTxt;
+  ctx.font=`bold ${Math.max(10,Math.floor(r*0.065))}px sans-serif`;
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(currentLang==='zh'?'五度圈':'Fifths', cx, cy-r*0.04);
+  ctx.font=`${Math.max(8,Math.floor(r*0.045))}px sans-serif`;
+  ctx.fillText(currentLang==='zh'?'点击选调':'click key', cx, cy+r*0.07);
+}
+
+function _arc(ctx,cx,cy,r1,r2,a0,a1,fill,stroke){
+  ctx.beginPath();
+  ctx.arc(cx,cy,r2,a0,a1);
+  ctx.arc(cx,cy,r1,a1,a0,true);
+  ctx.closePath();
+  ctx.fillStyle=fill; ctx.fill();
+  ctx.strokeStyle=stroke; ctx.lineWidth=1; ctx.stroke();
+}
+
+function updateFifthsInfo(){
+  const div=document.getElementById('fifths-info');
+  if(!div)return;
+  const isZh=currentLang==='zh';
+  if(fifthsSel<0){
+    div.innerHTML=`<div style="text-align:center;color:var(--ink3);font-size:12px;padding:12px 0">
+      ${isZh?'点击圆圈中的任意调查看详情':'Click any key in the circle to see details'}
+    </div>`;
+    return;
+  }
+  const major=FIFTHS_MAJOR[fifthsSel];
+  const minor=FIFTHS_MINOR[fifthsSel];
+  const acc=FIFTHS_ACC[fifthsSel];
+  const notes=FIFTHS_NOTES[fifthsSel];
+  // Relative minor notes (same as major but starting from 6th degree)
+  const relMinorNotes=[notes[5],notes[6],notes[0],notes[1],notes[2],notes[3],notes[4]];
+  // Adjacent keys
+  const prev=FIFTHS_MAJOR[(fifthsSel+11)%12];
+  const next=FIFTHS_MAJOR[(fifthsSel+1)%12];
+  div.innerHTML=`
+  <div style="border:1px solid var(--rule);background:var(--paper2);border-radius:4px;overflow:hidden">
+    <div style="background:var(--red);color:#fff;padding:10px 16px;display:flex;align-items:baseline;gap:10px">
+      <span style="font-size:20px;font-weight:700">${major}</span>
+      <span style="font-size:13px;opacity:0.85">${isZh?'大调':'major'}</span>
+      <span style="margin-left:auto;font-size:13px;opacity:0.85">${minor} ${isZh?'(关系小调)':'(relative minor)'}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--rule)">
+      <div style="padding:10px 14px;border-right:1px solid var(--rule)">
+        <div style="font-size:9px;letter-spacing:0.12em;color:var(--ink4);text-transform:uppercase;margin-bottom:5px">${isZh?'调号':'Key Signature'}</div>
+        <div style="font-size:16px;font-weight:600;color:var(--ink)">${acc==='0'?(isZh?'无升降号':'No sharps/flats'):acc}</div>
+      </div>
+      <div style="padding:10px 14px">
+        <div style="font-size:9px;letter-spacing:0.12em;color:var(--ink4);text-transform:uppercase;margin-bottom:5px">${isZh?'相邻调':'Adjacent Keys'}</div>
+        <div style="font-size:12px;color:var(--ink2)">← ${prev} &nbsp;|&nbsp; ${next} →</div>
+      </div>
+    </div>
+    <div style="padding:10px 14px;border-bottom:1px solid var(--rule)">
+      <div style="font-size:9px;letter-spacing:0.12em;color:var(--ink4);text-transform:uppercase;margin-bottom:7px">${isZh?'大调音阶音符':'Major Scale Notes'}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${notes.map((n,i)=>`<span style="padding:3px 8px;background:var(--paper3);border:1px solid var(--rule);border-radius:3px;font-size:12px;color:${i===0?'var(--red)':'var(--ink2)'};font-weight:${i===0?'700':'400'}">${n}</span>`).join('')}
+      </div>
+    </div>
+    <div style="padding:10px 14px">
+      <div style="font-size:9px;letter-spacing:0.12em;color:var(--ink4);text-transform:uppercase;margin-bottom:7px">${isZh?`${minor} 关系小调音符`:`${minor} Relative Minor Notes`}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${relMinorNotes.map((n,i)=>`<span style="padding:3px 8px;background:var(--paper3);border:1px solid var(--rule);border-radius:3px;font-size:12px;color:${i===0?'var(--teal)':'var(--ink2)'};font-weight:${i===0?'700':'400'}">${n}</span>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// FIFTHS PRACTICE MODE
+// ═══════════════════════════════════════════
+let fpRunning=false, fpScheduler=null;
+
+function toggleFifthsPractice(){
+  if(fpRunning)stopFP(); else startFP();
+}
+
+function startFP(){
+  const bpm=Math.max(40,Math.min(200,parseInt(document.getElementById('fp-bpm').value)||60));
+  const bars=Math.max(1,parseInt(document.getElementById('fp-bars').value)||2);
+  const dotsEl=document.getElementById('fp-beat-dots');
+  dotsEl.innerHTML='';
+  for(let i=0;i<4;i++){
+    const d=document.createElement('div');
+    d.className='beat-dot'+(i===0?' accent-dot':'');
+    dotsEl.appendChild(d);
+  }
+  fpRunning=true;
+  fifthsSel=0;
+  drawFifthsCircle();
+  updateFifthsInfo();
+  const btn=document.getElementById('fp-btn');
+  btn.textContent=t('btn.stop'); btn.classList.add('running');
+  scheduleFP(bpm,bars);
+}
+
+function stopFP(){
+  fpRunning=false;
+  if(fpScheduler)clearTimeout(fpScheduler);
+  fpScheduler=null;
+  const btn=document.getElementById('fp-btn');
+  if(btn){btn.textContent=t('btn.start'); btn.classList.remove('running');}
+  document.getElementById('fp-beat-dots')?.querySelectorAll('.beat-dot')
+    .forEach(d=>d.classList.remove('active'));
+  const st=document.getElementById('fp-status');
+  if(st)st.textContent='';
+}
+
+function scheduleFP(fpBPM, fpBarsPerKey){
+  const ctx=getACtx();
+  const beatInterval=60/fpBPM;
+  const beatsPerKey=fpBarsPerKey*4;
+  let nextTime=ctx.currentTime+0.05;
+  let localBeat=0;
+  let scheduledKey=0;
+
+  function schedule(){
+    if(!fpRunning)return;
+    while(nextTime<ctx.currentTime+0.2){
+      const beatInBar=localBeat%4;
+      const isAccent=beatInBar===0;
+      const isKeyDownbeat=localBeat%beatsPerKey===0;
+      const timeRef=nextTime;
+      const capturedKey=scheduledKey;
+      const capturedBeat=beatInBar;
+
+      // Audio — extra accent on key change
+      const osc=ctx.createOscillator(), gain=ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value=isKeyDownbeat?1400:(isAccent?1200:800);
+      gain.gain.setValueAtTime(isKeyDownbeat?0.7:(isAccent?0.55:0.32), timeRef);
+      gain.gain.exponentialRampToValueAtTime(0.001, timeRef+0.06);
+      osc.start(timeRef); osc.stop(timeRef+0.07);
+
+      // Visual
+      setTimeout(()=>{
+        if(!fpRunning)return;
+        document.getElementById('fp-beat-dots')?.querySelectorAll('.beat-dot')
+          .forEach((d,i)=>d.classList.toggle('active',i===capturedBeat));
+        if(capturedBeat===0){
+          fifthsSel=capturedKey;
+          drawFifthsCircle();
+          updateFifthsInfo();
+          const st=document.getElementById('fp-status');
+          if(st)st.textContent=`${FIFTHS_MAJOR[capturedKey]} · ${capturedKey+1}/12`;
+        }
+      }, Math.max(0,(timeRef-ctx.currentTime)*1000-20));
+
+      localBeat++;
+      if(localBeat%beatsPerKey===0) scheduledKey=(scheduledKey+1)%12;
+      nextTime+=beatInterval;
+    }
+    fpScheduler=setTimeout(schedule,50);
+  }
+  schedule();
+}
+
 // BUILD BUTTONS
 // ═══════════════════════════════════════════
 function mkBtns(rowId,labels,handler,cls,defIdx){
