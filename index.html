@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guitar Scale Navigator · Complete</title>
+<script src="https://cdn.jsdelivr.net/npm/svguitar@2.5.1/dist/svguitar.umd.js"></script>
 <style>
 :root {
   --serif: Georgia,'Times New Roman',serif;
@@ -87,7 +88,12 @@ canvas{display:block;}
 .connection-title{font-size:9px;letter-spacing:0.14em;color:var(--ink4);text-transform:uppercase;margin-bottom:6px;}
 
 /* ── Chord ── */
-.chord-canvas-wrap{display:flex;justify-content:center;padding:10px 0;}
+.chord-canvas-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:8px;}
+#chord-svg-wrap{min-width:180px;min-height:220px;display:flex;align-items:center;justify-content:center;}
+#chord-svg-wrap svg{display:block;}
+.chord-voicing-row{display:flex;align-items:center;gap:12px;}
+.voicing-btn{background:transparent;border:1px solid var(--rule);color:var(--ink3);width:24px;height:24px;cursor:pointer;border-radius:2px;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center;}
+.voicing-btn:hover{border-color:var(--gold);color:var(--ink);}
 
 /* ── Fretboard map ── */
 .fretmap-wrap{overflow-x:auto;margin-bottom:14px;border:1px solid var(--rule);background:var(--paper2);padding:12px 8px;}
@@ -430,15 +436,16 @@ canvas{display:block;}
 <!-- 9 Chord Diagrams -->
 <div class="panel" id="panel-chords">
   <div class="sec-head"><span class="sec-num" data-i18n="secnum.chords">Chords · 9</span><span class="sec-title" data-i18n="sectitle.chords">Chord Diagrams</span></div>
-  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.chord">Chord</div><div class="btn-row" id="chord-list-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="chord-key-row"></div></div>
   <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.type">Type</div><div class="btn-row" id="chord-type-row"></div></div>
-  <div class="chord-canvas-wrap"><canvas id="cv-chord" width="200" height="230"></canvas></div>
-  <div class="legend-row" id="legend-chord">
-    <div class="legend-item"><div class="ldot" style="background:#8b2020;color:#fff">R</div><span data-i18n="legend.root">Root</span></div>
-    <div class="legend-item"><div class="ldot" style="background:#1a5c48;color:#fff">3</div><span data-i18n="legend.3rd">3rd</span></div>
-    <div class="legend-item"><div class="ldot" style="background:#2d5a8a;color:#fff">5</div><span data-i18n="legend.5th">5th</span></div>
-    <div class="legend-item"><div class="ldot" style="background:#8a4820;color:#fff">7</div><span data-i18n="legend.7th">7th</span></div>
-    <div class="info-stamp" id="chord-info">C Major</div>
+  <div class="chord-canvas-wrap">
+    <div id="chord-svg-wrap"><div style="padding:20px;font-size:11px;color:var(--ink3)">Loading…</div></div>
+    <div class="chord-voicing-row" id="chord-voicing-nav" style="display:none;">
+      <button class="voicing-btn" onclick="changeVoicing(-1)">‹</button>
+      <span id="voicing-counter" style="font-size:11px;color:var(--ink3);min-width:36px;text-align:center;">1 / 1</span>
+      <button class="voicing-btn" onclick="changeVoicing(1)">›</button>
+    </div>
+    <div class="info-stamp" id="chord-info" style="margin-top:4px;">—</div>
   </div>
   <div class="annotation" data-i18n="ann.chords">Common chord voicings. Open position chords use open strings for a full sound. Barre chords are <strong>moveable shapes</strong> — the same fingering works in every key.</div>
 </div>
@@ -934,38 +941,178 @@ const PENTA_SHAPES=[
   {name:'C',loOff:5,hiOff:9},{name:'A',loOff:7,hiOff:11},{name:'G',loOff:9,hiOff:14},
 ];
 
-// Chord database
-const CHORD_DB={
-  major:{
-    'C':{frets:[0,3,2,0,1,0],barre:0},'C#':{frets:[1,1,3,3,3,1],barre:1},
-    'D':{frets:[-1,-1,0,2,3,2],barre:0},'D#':{frets:[-1,-1,1,3,4,3],barre:0},
-    'E':{frets:[0,2,2,1,0,0],barre:0},'F':{frets:[1,1,2,3,3,1],barre:1},
-    'F#':{frets:[2,2,3,4,4,2],barre:2},'G':{frets:[3,2,0,0,0,3],barre:0},
-    'G#':{frets:[4,3,1,1,1,4],barre:1},'A':{frets:[-1,0,2,2,2,0],barre:0},
-    'A#':{frets:[-1,1,3,3,3,1],barre:1},'B':{frets:[-1,2,4,4,4,2],barre:2},
-  },
-  minor:{
-    'Cm':{frets:[-1,3,5,5,4,3],barre:3},'C#m':{frets:[-1,4,6,6,5,4],barre:4},
-    'Dm':{frets:[-1,-1,0,2,3,1],barre:0},'D#m':{frets:[-1,-1,1,3,4,2],barre:0},
-    'Em':{frets:[0,2,2,0,0,0],barre:0},'Fm':{frets:[1,1,3,3,2,1],barre:1},
-    'F#m':{frets:[2,2,4,4,3,2],barre:2},'Gm':{frets:[3,1,0,0,3,3],barre:3},
-    'G#m':{frets:[4,2,1,1,4,4],barre:4},'Am':{frets:[-1,0,2,2,1,0],barre:0},
-    'A#m':{frets:[-1,1,3,3,2,1],barre:1},'Bm':{frets:[-1,2,4,4,3,2],barre:2},
-  },
-  dom7:{
-    'C7':{frets:[-1,3,2,3,1,0],barre:0},'D7':{frets:[-1,-1,0,2,1,2],barre:0},
-    'E7':{frets:[0,2,2,1,0,0],barre:0},'G7':{frets:[3,2,0,0,0,1],barre:0},
-    'A7':{frets:[-1,0,2,0,2,0],barre:0},'B7':{frets:[-1,2,1,2,0,2],barre:0},
-  },
-  maj7:{
-    'Cmaj7':{frets:[0,3,2,0,0,0],barre:0},'Fmaj7':{frets:[-1,-1,3,2,1,0],barre:0},
-    'Gmaj7':{frets:[3,2,0,0,0,2],barre:0},'Amaj7':{frets:[-1,0,2,1,2,0],barre:0},
-  },
-  sus:{
-    'Dsus4':{frets:[-1,-1,0,2,3,3],barre:0},'Esus4':{frets:[0,2,2,2,0,0],barre:0},
-    'Asus2':{frets:[-1,0,2,2,0,0],barre:0},'Csus2':{frets:[-1,3,0,0,3,3],barre:0},
-  },
+// ── Chord DB (loaded from @tombatossals/chords-db via CDN) ──
+let TOMA_DB=null;
+let chordCurrentVoicings=[],chordCurrentVoicing=0;
+const CHORD_TYPE_LABELS={
+  'major':'Major','minor':'Minor','7':'Dom 7','maj7':'Maj 7','m7':'Min 7',
+  '6':'Major 6','m6':'Minor 6','9':'9th','maj9':'Maj 9','m9':'Min 9',
+  'sus2':'Sus 2','sus4':'Sus 4','dim':'Dim','dim7':'Dim 7','aug':'Aug',
+  'aug7':'Aug 7','m7b5':'m7♭5','5':'Power','11':'11th','13':'13th',
+  '7b9':'7♭9','7#9':'7♯9','add9':'Add 9','madd9':'mAdd 9',
 };
+const CHORD_TYPE_ORDER=['major','minor','7','maj7','m7','6','m6','9','maj9','m9',
+  'sus2','sus4','dim','dim7','aug','aug7','m7b5','5','add9','madd9','11','13','7b9','7#9'];
+
+// tombatossals uses different key names (no sharps/flats in key string)
+const TOMA_KEY_MAP={
+  'C':'C','C#':'Csharp','D':'D','D#':'Eb','E':'E','F':'F',
+  'F#':'Fsharp','G':'G','G#':'Ab','A':'A','A#':'Bb','B':'B'
+};
+function tomaKey(i){return TOMA_KEY_MAP[KEYS[i]];}
+
+function loadChordDB(){
+  const wrap=document.getElementById('chord-svg-wrap');
+  wrap.innerHTML='<div style="padding:20px;font-size:11px;color:var(--ink3)">Loading chord database…</div>';
+  const urls=[
+    'https://cdn.jsdelivr.net/npm/@tombatossals/chords-db@0.5.1/lib/guitar.json',
+    'https://unpkg.com/@tombatossals/chords-db@0.5.1/lib/guitar.json',
+  ];
+  function tryFetch(idx){
+    if(idx>=urls.length){
+      wrap.innerHTML='<div style="padding:20px;font-size:11px;color:var(--red)">Failed to load chord database. Check network.</div>';
+      return;
+    }
+    fetch(urls[idx])
+      .then(r=>{if(!r.ok)throw new Error('bad response');return r.json();})
+      .then(data=>{
+        TOMA_DB=data.chords||data;
+        // Verify data loaded correctly
+        if(!TOMA_DB['C']&&!TOMA_DB['Csharp']){throw new Error('unexpected format');}
+        initChordPanel();
+      })
+      .catch(()=>tryFetch(idx+1));
+  }
+  tryFetch(0);
+}
+
+function initChordPanel(){
+  mkBtns('chord-key-row',KEYS,(i)=>{ST.chords.key=i;updateChordTypes();},'kbtn',0);
+  updateChordTypes();
+}
+
+function updateChordTypes(){
+  const key=tomaKey(ST.chords.key);
+  const list=TOMA_DB[key]||[];
+  const available=list.map(c=>c.suffix);
+  const ordered=CHORD_TYPE_ORDER.filter(t=>available.includes(t));
+  available.forEach(t=>{if(!ordered.includes(t))ordered.push(t);});
+  const typeRow=document.getElementById('chord-type-row');
+  typeRow.innerHTML='';
+  ordered.forEach((type,i)=>{
+    const b=document.createElement('button');
+    b.className='sbtn'+(i===0?' active':'');
+    b.textContent=CHORD_TYPE_LABELS[type]||type;
+    b.onclick=()=>{ST.chords.type=type;syncBtns('chord-type-row',i);chordCurrentVoicing=0;renderCurrentChord();};
+    typeRow.appendChild(b);
+  });
+  ST.chords.type=ordered[0]||'major';
+  chordCurrentVoicing=0;
+  renderCurrentChord();
+}
+
+function renderCurrentChord(){
+  const key=tomaKey(ST.chords.key);
+  const type=ST.chords.type;
+  const list=TOMA_DB?TOMA_DB[key]||[]:[];
+  const chordData=list.find(c=>c.suffix===type);
+  chordCurrentVoicings=chordData?chordData.positions:[];
+  const nav=document.getElementById('chord-voicing-nav');
+  if(chordCurrentVoicings.length>1){
+    nav.style.display='flex';
+    document.getElementById('voicing-counter').textContent=`${chordCurrentVoicing+1} / ${chordCurrentVoicings.length}`;
+  }else{nav.style.display='none';}
+  if(!chordCurrentVoicings.length){
+    document.getElementById('chord-svg-wrap').innerHTML='<div style="padding:20px;font-size:11px;color:var(--ink3)">No voicings</div>';
+    document.getElementById('chord-info').textContent='—';return;
+  }
+  const pos=chordCurrentVoicings[chordCurrentVoicing];
+  const label=`${KEYS[ST.chords.key]} ${CHORD_TYPE_LABELS[type]||type}`;
+  document.getElementById('chord-info').textContent=label;
+  drawChordSvg(pos);
+}
+
+function changeVoicing(dir){
+  chordCurrentVoicing=(chordCurrentVoicing+dir+chordCurrentVoicings.length)%chordCurrentVoicings.length;
+  document.getElementById('voicing-counter').textContent=`${chordCurrentVoicing+1} / ${chordCurrentVoicings.length}`;
+  const pos=chordCurrentVoicings[chordCurrentVoicing];
+  drawChordSvg(pos);
+}
+
+function drawChordSvg(pos){
+  const container=document.getElementById('chord-svg-wrap');
+  container.innerHTML='';
+  if(!window.svguitar){drawChordCanvas(container,pos);return;}
+  // Convert tombatossals → svguitar format
+  // tomba: frets[0]=E(low), frets[5]=e(high); svguitar: string 1=e(high), 6=E(low)
+  const fingers=[];
+  for(let i=0;i<6;i++){
+    const fret=pos.frets[i];
+    const s=6-i; // svguitar: string 1=rightmost=e(high), string 6=leftmost=E(low)
+    fingers.push(fret===-1?[s,'x']:[s,fret]);
+  }
+  // Barres: tombatossals barres is array of fret numbers
+  const barres=(pos.barres||[]).map(barreFret=>{
+    const barredStrings=[];
+    for(let i=0;i<6;i++){if(pos.frets[i]===barreFret)barredStrings.push(6-i);}
+    if(barredStrings.length<2)return null;
+    return{fromString:Math.max(...barredStrings),toString:Math.min(...barredStrings),fret:barreFret};
+  }).filter(Boolean);
+  try{
+    new svguitar.SVGuitarChord(container)
+      .configure({
+        strings:6,frets:4,
+        position:pos.baseFret||1,
+        tuning:[],
+        showTuning:false,
+        strokeColor:'#4a3f35',
+        stringColor:'rgba(28,24,20,0.35)',
+        fretColor:'rgba(28,24,20,0.12)',
+        nutColor:'#4a3f35',
+        nutSize:0.1,
+        dotColor:'#1c1814',
+        dotStrokeColor:'transparent',
+        dotTextColor:'#f5f0e8',
+        dotSize:0.72,
+        dotStrokeWidth:0,
+        fretSize:1.5,
+        sidePadding:0.18,
+        titleFontSize:0,
+        fretLabelFontSize:14,
+        backgroundColor:'transparent',
+        width:190,height:230,
+      })
+      .chord({fingers,barres})
+      .draw();
+  }catch(e){drawChordCanvas(container,pos);}
+}
+
+function drawChordCanvas(container,pos){
+  // Canvas fallback when svguitar unavailable
+  const cv=document.createElement('canvas');
+  cv.width=190;cv.height=230;container.appendChild(cv);
+  const ctx=cv.getContext('2d');
+  const{frets,baseFret=1}=pos;
+  const W=190,H=230,sx=30,sy=50,fw=22,fh=24,nr=4,ns=6,gw=(ns-1)*fw,gh=nr*fh;
+  ctx.fillStyle=C_BG;ctx.fillRect(0,0,W,H);
+  // Fret lines
+  for(let i=0;i<=nr;i++){
+    ctx.beginPath();ctx.moveTo(sx,sy+i*fh);ctx.lineTo(sx+gw,sy+i*fh);
+    ctx.strokeStyle=i===0&&baseFret===1?C_NUT:'rgba(28,24,20,0.2)';
+    ctx.lineWidth=i===0&&baseFret===1?2.5:0.8;ctx.stroke();
+  }
+  // String lines
+  for(let i=0;i<ns;i++){ctx.beginPath();ctx.moveTo(sx+i*fw,sy);ctx.lineTo(sx+i*fw,sy+gh);ctx.strokeStyle='rgba(28,24,20,0.25)';ctx.lineWidth=0.7;ctx.stroke();}
+  // Basefret label
+  if(baseFret>1){ctx.font='9px var(--mono,monospace)';ctx.fillStyle=C_NUM;ctx.textAlign='left';ctx.fillText(baseFret+'fr',sx+gw+5,sy+12);}
+  // Notes
+  frets.forEach((f,si)=>{
+    const x=sx+(ns-1-si)*fw;
+    if(f===-1){ctx.font='11px var(--mono,monospace)';ctx.fillStyle='rgba(28,24,20,0.4)';ctx.textAlign='center';ctx.fillText('×',x,sy-10);}
+    else if(f===0){ctx.beginPath();ctx.arc(x,sy-11,4,0,Math.PI*2);ctx.strokeStyle='rgba(28,24,20,0.4)';ctx.lineWidth=1;ctx.stroke();}
+    else{ctx.beginPath();ctx.arc(x,sy+(f-0.5)*fh,8,0,Math.PI*2);ctx.fillStyle='#1c1814';ctx.fill();}
+  });
+}
 
 // ═══════════════════════════════════════════
 // UTILITY
@@ -1248,32 +1395,7 @@ function setFretRange(lo,hi,btn){
 }
 
 // Chord diagram
-function drawChord(cv,data,name){
-  const W=190,H=230;
-  cv.width=W;cv.height=H;
-  const ctx=cv.getContext('2d');
-  ctx.fillStyle=C_BG;ctx.fillRect(0,0,W,H);
-  if(!data){ctx.font='11px var(--sans)';ctx.fillStyle=C_NUM;ctx.textAlign='center';ctx.fillText('Select a chord',W/2,H/2);return;}
-  const{frets,barre}=data;
-  const sx=30,sy=42,fw=22,fh=22,nr=5,ns=6,gw=(ns-1)*fw,gh=nr*fh;
-  ctx.font='bold 14px var(--serif)';ctx.fillStyle=C_NUT;ctx.textAlign='center';ctx.fillText(name,W/2,24);
-  for(let i=0;i<=ns-1;i++){ctx.beginPath();ctx.moveTo(sx+i*fw,sy);ctx.lineTo(sx+i*fw,sy+gh);ctx.strokeStyle='rgba(28,24,20,0.18)';ctx.lineWidth=0.7;ctx.stroke();}
-  for(let i=0;i<=nr;i++){ctx.beginPath();ctx.moveTo(sx,sy+i*fh);ctx.lineTo(sx+gw,sy+i*fh);ctx.strokeStyle=i===0?C_NUT:'rgba(28,24,20,0.18)';ctx.lineWidth=i===0?2.5:0.7;ctx.stroke();}
-  if(barre>0){
-    ctx.beginPath();ctx.roundRect(sx-7,sy+(barre-1)*fh+fh/2-7,gw+14,14,7);
-    ctx.fillStyle='#8b2020';ctx.fill();
-  }
-  frets.forEach((f,si)=>{
-    const x=sx+(ns-1-si)*fw;
-    if(f===-1){ctx.font='10px var(--mono)';ctx.fillStyle='rgba(28,24,20,0.35)';ctx.textAlign='center';ctx.fillText('×',x,sy-8);}
-    else if(f===0){ctx.beginPath();ctx.arc(x,sy-9,4.5,0,Math.PI*2);ctx.strokeStyle='rgba(28,24,20,0.35)';ctx.lineWidth=1;ctx.stroke();}
-    else{
-      const fy=sy+(f-0.5)*fh;
-      ctx.beginPath();ctx.arc(x,fy,7,0,Math.PI*2);
-      ctx.fillStyle=f===barre?'rgba(139,32,32,0.4)':'#1c1814';ctx.fill();
-    }
-  });
-}
+// (drawChord replaced by drawChordSvg + drawChordCanvas above)
 
 // Legend builder
 function buildLegend(id,items,stamp){
@@ -1299,7 +1421,7 @@ const ST={
   harmminor:{key:9,shape:0,mode:'num'},
   modes:{key:0,modeIdx:0,mode:'num'},
   nps:{key:0,pos:0,mode:'num'},
-  chords:{type:'major',chord:'C'},
+  chords:{key:0,type:'major'},
   prog:{key:0,type:'major'},
   sc:{key:0,scale:'minorpenta'},
   cmp:{key:0,scaleA:'major',scaleB:'minorpenta'},
@@ -1378,12 +1500,7 @@ function dNps(){
     `${KEYS[key]} · Pos ${['I','II','III','IV','V','VI','VII','All'][pos]}`);
 }
 
-function dChord(){
-  const{type,chord}=ST.chords;
-  const data=(CHORD_DB[type]||{})[chord];
-  drawChord(document.getElementById('cv-chord'),data,chord);
-  document.getElementById('chord-info').textContent=chord||'—';
-}
+function dChord(){renderCurrentChord();}
 
 function dProg(){
   const{key,type}=ST.prog;
@@ -1939,26 +2056,8 @@ mkBtns('nps-pos-row',[...Array(7).keys()].map(i=>`Pos ${['I','II','III','IV','V'
 // Fretboard map note buttons
 mkBtns('fretmap-note-row',['All',...NOTE_NAMES],(i)=>{fretmapHighlight=i-1;drawFretmap();},'kbtn',0);
 
-// Chord type + list
-mkBtns('chord-type-row',['Major','Minor','Dom 7th','Maj 7th','Sus'],(i)=>{
-  ST.chords.type=['major','minor','dom7','maj7','sus'][i];
-  updateChordList();
-},'sbtn',0);
-
-function updateChordList(){
-  const defs=CHORD_DB[ST.chords.type]||{};
-  const names=Object.keys(defs);
-  const row=document.getElementById('chord-list-row');
-  row.innerHTML='';
-  names.forEach((name,i)=>{
-    const b=document.createElement('button');
-    b.className='kbtn'+(i===0?' active':'');b.style.cssText='width:auto;padding:4px 8px;';
-    b.textContent=name;
-    b.onclick=()=>{ST.chords.chord=name;syncBtns('chord-list-row',i);dChord();};
-    row.appendChild(b);
-  });
-  if(names.length){ST.chords.chord=names[0];dChord();}
-}
+// Chord diagrams — loaded from CDN
+loadChordDB();
 
 // Chord progressions
 mkBtns('prog-key-row',KEYS,(i)=>{ST.prog.key=i;dProg();},'kbtn',0);
