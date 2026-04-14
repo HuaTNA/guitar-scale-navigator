@@ -763,6 +763,11 @@ const TRANSLATIONS={
     'tuner.playnote':'Play a note to begin','tuner.flat':'♭ flat','tuner.intune':'in tune','tuner.sharp':'sharp ♯',
     'footer.title':'Guitar Scale Navigator · Complete Edition',
     'misc.allnotes':'All notes','misc.selectmode':'Select a mode above.',
+    'quiz.notesub':'What note is this?','quiz.degsub':'What is degree','quiz.shapemain':'Name this major shape',
+    'quiz.shapesub':'Root degree:','quiz.intsub':'What interval is this?',
+    'quiz.strfret':'String %s, Fret %f',
+    'quiz.correct':'✓ Correct!','quiz.incorrect':'✗ Incorrect — correct: ',
+    'quiz.scorelabel':'Score:',
     'ann.major':'Five shapes link end-to-end across the neck. <strong>To change key, shift the whole pattern</strong> — the shape stays identical. Each shape is named after its characteristic note.',
     'ann.minor':'Contains <strong>1, ♭3, 4, 5, ♭7</strong> — the core of blues, rock, and metal improvisation. Five CAGED shapes connect end-to-end across the neck.',
     'ann.blues':'Minor pentatonic + <strong>♭5 (the "blue note")</strong> = 6 notes. The ♭5 is the signature tension of blues and rock — use string bends on it for maximum expression.',
@@ -835,6 +840,11 @@ const TRANSLATIONS={
     'tuner.playnote':'演奏一个音符开始','tuner.flat':'♭ 偏低','tuner.intune':'准确','tuner.sharp':'偏高 ♯',
     'footer.title':'吉他音阶导航 · 完整版',
     'misc.allnotes':'所有音符','misc.selectmode':'在上方选择调式。',
+    'quiz.notesub':'这是什么音符？','quiz.degsub':'第','quiz.shapemain':'说出这个大调指型名称',
+    'quiz.shapesub':'根音级数：','quiz.intsub':'这是什么音程？',
+    'quiz.strfret':'%s弦，第%f品',
+    'quiz.correct':'✓ 正确！','quiz.incorrect':'✗ 错误——正确答案：',
+    'quiz.scorelabel':'得分：',
     'ann.major':'5种指型首尾相连覆盖整个指板。<strong>换调只需平移整个图形</strong>——指型不变，只是位置移动。每种指型以其特征音命名。',
     'ann.minor':'包含 <strong>1, ♭3, 4, 5, ♭7</strong>——蓝调、摇滚、金属即兴的核心。5种CAGED指型首尾相连覆盖全颈。',
     'ann.blues':'小调五声 + <strong>♭5（"蓝调音"）</strong>= 6个音。♭5是蓝调和摇滚的标志性张力音——在这个音上做弦推效果最佳。',
@@ -1754,7 +1764,7 @@ function renderLog(){
 // QUIZ
 // ═══════════════════════════════════════════
 let quizScore=0,quizTotal=0,quizType='note',quizAnswered=false;
-function startQuiz(type){quizType=type;quizScore=0;quizTotal=0;quizAnswered=false;document.getElementById('quiz-score').textContent='Score: 0 / 0';nextQuestion();}
+function startQuiz(type){quizType=type;quizScore=0;quizTotal=0;quizAnswered=false;document.getElementById('quiz-score').textContent=t('quiz.scorelabel')+' 0 / 0';nextQuestion();}
 function nextQuestion(){
   quizAnswered=false;
   document.getElementById('quiz-result').textContent='';
@@ -1763,24 +1773,28 @@ function nextQuestion(){
   if(quizType==='note'){
     const str=Math.floor(Math.random()*6),fret=Math.floor(Math.random()*13);
     const pitch=(OPEN_P[str]+fret)%12;correct=NOTE_NAMES[pitch];
-    q=`String ${['e','B','G','D','A','E'][str]}, Fret ${fret}`;sub='What note is this?';
+    const strName=['e','B','G','D','A','E'][str];
+    q=t('quiz.strfret').replace('%s',strName).replace('%f',fret);
+    sub=t('quiz.notesub');
     const s=new Set([correct]);while(s.size<4)s.add(NOTE_NAMES[Math.floor(Math.random()*12)]);
     opts=[...s].sort(()=>Math.random()-0.5);
   } else if(quizType==='degree'){
     const sk=Object.keys(SCALES)[Math.floor(Math.random()*Object.keys(SCALES).length)];
     const sc=SCALES[sk],di=Math.floor(Math.random()*sc.degs.length);
-    correct=sc.degs[di];q=sc.name;sub=`What is degree ${di+1}?`;
+    correct=sc.degs[di];q=sc.name;
+    sub=currentLang==='zh'?`${t('quiz.degsub')}${di+1}级是什么？`:`${t('quiz.degsub')} ${di+1}?`;
     const all=['1','2','3','4','5','6','7','♭2','♭3','♭5','♭6','♭7','♯4'];
     const s=new Set([correct]);while(s.size<4)s.add(all[Math.floor(Math.random()*all.length)]);
     opts=[...s].sort(()=>Math.random()-0.5);
   } else if(quizType==='shape'){
     const si=Math.floor(Math.random()*MAJOR_SHAPES.length);
-    correct=MAJOR_SHAPES[si].name;q='Name this major shape';sub=`Root degree: ${MAJOR_SHAPES[si].rootDeg}`;
+    correct=MAJOR_SHAPES[si].name;q=t('quiz.shapemain');
+    sub=`${t('quiz.shapesub')} ${MAJOR_SHAPES[si].rootDeg}`;
     opts=MAJOR_SHAPES.map(s=>s.name).sort(()=>Math.random()-0.5);
   } else {
     const a=Math.floor(Math.random()*12),b=Math.floor(Math.random()*12);
     const semi=((b-a)+12)%12;correct=INT_NAMES[semi];
-    q=`${NOTE_NAMES[a]} → ${NOTE_NAMES[b]}`;sub='What interval is this?';
+    q=`${NOTE_NAMES[a]} → ${NOTE_NAMES[b]}`;sub=t('quiz.intsub');
     const s=new Set([correct]);while(s.size<4)s.add(INT_NAMES[Math.floor(Math.random()*12)]);
     opts=[...s].sort(()=>Math.random()-0.5);
   }
@@ -1796,9 +1810,9 @@ function answerQuiz(chosen,correct,btn){
   const ok=chosen===correct;if(ok)quizScore++;
   btn.classList.add(ok?'correct':'wrong');
   if(!ok)document.querySelectorAll('.quiz-choice').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});
-  document.getElementById('quiz-result').textContent=ok?'✓ Correct!':'✗ Incorrect — correct: '+correct;
+  document.getElementById('quiz-result').textContent=ok?t('quiz.correct'):t('quiz.incorrect')+correct;
   document.getElementById('quiz-result').style.color=ok?'var(--teal)':'var(--red)';
-  document.getElementById('quiz-score').textContent=`Score: ${quizScore} / ${quizTotal} (${Math.round(quizScore/quizTotal*100)}%)`;
+  document.getElementById('quiz-score').textContent=`${t('quiz.scorelabel')} ${quizScore} / ${quizTotal} (${Math.round(quizScore/quizTotal*100)}%)`;
   setTimeout(()=>{if(quizAnswered)nextQuestion();},1500);
 }
 
