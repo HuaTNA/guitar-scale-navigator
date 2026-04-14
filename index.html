@@ -10281,7 +10281,7 @@ function buildBeatVis(){
     const d=document.createElement('div');d.className='beat-dot'+(i===0?' accent-dot':'');el.appendChild(d);
   }
 }
-function updateBeatVis(){document.querySelectorAll('.beat-dot').forEach((d,i)=>d.classList.toggle('active',i===currentBeat));}
+function updateBeatVis(){document.querySelectorAll('#beat-visual .beat-dot').forEach((d,i)=>d.classList.toggle('active',i===currentBeat));}
 
 function stopMetro(){
   metroRunning=false;
@@ -10290,7 +10290,7 @@ function stopMetro(){
   if(metroTimer){clearInterval(metroTimer);metroTimer=null;}
   document.getElementById('metro-btn').textContent=t('btn.start');
   document.getElementById('metro-btn').classList.remove('running');
-  document.querySelectorAll('.beat-dot').forEach(d=>d.classList.remove('active'));
+  document.querySelectorAll('#beat-visual .beat-dot').forEach(d=>d.classList.remove('active'));
 }
 
 function toggleMetro(){
