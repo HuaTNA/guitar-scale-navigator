@@ -10206,23 +10206,26 @@ function buildIntTable(){
 // ═══════════════════════════════════════════
 let bpm=80,beatsPerMeasure=2,currentBeat=0,metroTimer=null,audioCtx=null,feel='straight';
 
-// iOS/Android require AudioContext to be created & unlocked inside a user gesture.
-// We play a silent buffer on the first touch to unlock it for all future calls.
-function unlockAudio(){
-  if(audioCtx) return;
-  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  const buf=audioCtx.createBuffer(1,1,audioCtx.sampleRate);
-  const src=audioCtx.createBufferSource();
-  src.buffer=buf; src.connect(audioCtx.destination); src.start(0);
+// iOS requires AudioContext creation + silent buffer playback to happen
+// SYNCHRONOUSLY inside a user gesture. Never use await before scheduling.
+let audioUnlocked=false;
+function ensureAudio(){
+  // Create context if needed — must be synchronous in gesture handler
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  // Play a 1-sample silent buffer — this is what actually unlocks iOS audio
+  if(!audioUnlocked){
+    const buf=audioCtx.createBuffer(1,1,audioCtx.sampleRate);
+    const src=audioCtx.createBufferSource();
+    src.buffer=buf; src.connect(audioCtx.destination); src.start(0);
+    audioUnlocked=true;
+  }
+  // Call resume() synchronously — do NOT await, that breaks the gesture context on iOS
   audioCtx.resume();
+  return audioCtx;
 }
-document.addEventListener('touchstart', unlockAudio, {once:true, passive:true});
-document.addEventListener('click', unlockAudio, {once:true});
 
 function getACtx(){
-  if(!audioCtx) unlockAudio();
-  if(audioCtx.state==='suspended') audioCtx.resume();
-  return audioCtx;
+  return ensureAudio();
 }
 
 function playClick(accent){
@@ -10311,12 +10314,11 @@ function stopMetro(){
   document.querySelectorAll('#beat-visual .beat-dot').forEach(d=>d.classList.remove('active'));
 }
 
-async function toggleMetro(){
+function toggleMetro(){
   if(metroRunning){
     stopMetro();
   } else {
-    if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-    await audioCtx.resume();
+    ensureAudio(); // synchronous unlock — must stay before any scheduling
     currentBeat=0;
     document.getElementById('metro-btn').textContent=t('btn.stop');
     document.getElementById('metro-btn').classList.add('running');
@@ -10823,7 +10825,8 @@ function toggleFifthsPractice(){
   if(fpRunning)stopFP(); else startFP();
 }
 
-async function startFP(){
+function startFP(){
+  ensureAudio(); // synchronous unlock — must be first
   const bpm=Math.max(40,Math.min(200,parseInt(document.getElementById('fp-bpm').value)||60));
   const bars=Math.max(1,parseInt(document.getElementById('fp-bars').value)||2);
   const dotsEl=document.getElementById('fp-beat-dots');
@@ -10833,8 +10836,6 @@ async function startFP(){
     d.className='beat-dot'+(i===0?' accent-dot':'');
     dotsEl.appendChild(d);
   }
-  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  await audioCtx.resume();
   fpRunning=true;
   fifthsSel=0;
   drawFifthsCircle();
