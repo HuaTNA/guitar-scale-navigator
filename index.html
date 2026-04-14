@@ -215,136 +215,12 @@ canvas{display:block;}
 .page-footer{padding:11px 60px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;background:var(--paper2);}
 .footer-text{font-size:10px;color:var(--ink4);font-style:italic;}
 
-/* ── Mobile nav dropdown ── */
-.mobile-nav{display:none;padding:10px 14px;background:var(--paper2);border-bottom:1.5px solid var(--rule);}
-.mobile-nav-select{width:100%;padding:10px 12px;border-radius:6px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);font-size:14px;font-family:var(--sans);outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7a6a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
-.mobile-nav-label{font-size:9px;letter-spacing:0.16em;color:var(--ink4);text-transform:uppercase;margin-bottom:6px;}
-
-@media(max-width:640px){
-  /* Body & book */
-  body{padding:0;background:var(--paper2);}
-  .book{border-radius:0;box-shadow:none;min-height:100vh;}
-  .book::after{display:none;}
-
-  /* Header — compact */
-  .frontispiece{padding:18px 16px 14px;}
-  .title-pre{font-size:9px;}
-  .title-main{font-size:22px;}
-  .title-sub{font-size:10px;margin-bottom:8px;}
-  .subtitle{display:none;}
-  .deco{display:none;}
-  .title-rule{margin-bottom:6px;}
-
-  /* Nav — hide desktop, show dropdown */
-  .nav-wrap{display:none;}
-  .mobile-nav{display:block;}
-
-  /* Page */
-  .page{padding:16px 14px 40px;}
-
-  /* Section heading */
-  .sec-title{font-size:16px;}
-  .sec-num{font-size:9px;}
-
-  /* Buttons — bigger touch targets */
-  .kbtn{width:38px;padding:8px 0;font-size:12px;}
-  .sbtn{padding:8px 12px;font-size:12px;}
-  .pbtn{padding:7px 10px;font-size:11px;}
-  .tbtn{padding:6px 10px;font-size:11px;}
-
-  /* Button rows — more spacing */
-  .btn-row{gap:5px;}
-  .toggle-row{gap:5px;flex-wrap:wrap;}
-
-  /* Board frame */
-  .board-frame{padding:12px 4px 10px;-webkit-overflow-scrolling:touch;}
-
-  /* Legend — wrap nicely */
-  .legend-row{gap:6px 10px;padding:8px 10px;}
-  .legend-item{font-size:11px;}
-  .ldot{width:18px;height:18px;font-size:9px;}
-  .info-stamp{font-size:12px;width:100%;margin-left:0;margin-top:4px;text-align:right;}
-
-  /* Connection map */
-  .connection-wrap{-webkit-overflow-scrolling:touch;}
-
-  /* Annotation */
-  .annotation{font-size:12px;line-height:1.9;}
-
-  /* Metronome — stack vertically */
-  .metronome-box{flex-direction:column;align-items:flex-start;gap:14px;padding:14px;}
-  .bpm-display{font-size:48px;min-width:auto;}
-  .bpm-slider{width:100%;max-width:280px;}
-  .bpm-btns{gap:6px;}
-  .bpm-btn{padding:8px 14px;font-size:13px;}
-  .metro-btn{padding:12px 28px;font-size:14px;width:100%;max-width:200px;}
-  .beat-visual{gap:8px;}
-  .beat-dot{width:14px;height:14px;}
-
-  /* Tuner */
-  .tuner-box{padding:20px 14px;}
-  .tuner-note{font-size:48px;}
-  .tuner-cents{font-size:13px;}
-  .tuner-bar-wrap{width:100%;max-width:280px;}
-  .tuner-strings{gap:6px;}
-  .tuner-ref{padding:8px 12px;font-size:12px;}
-  .tuner-btn{padding:10px 24px;font-size:13px;}
-
-  /* Compare */
-  .compare-board{grid-template-columns:1fr;}
-
-  /* Scale-chord table */
-  .scalechord-table{font-size:11px;}
-  .scalechord-table th,.scalechord-table td{padding:5px 7px;}
-
-  /* Capo table */
-  .capo-table th,.capo-table td{padding:5px 8px;font-size:11px;}
-
-  /* Log */
-  .log-grid{grid-template-columns:1fr 1fr;}
-  .log-actions{flex-wrap:wrap;}
-
-  /* Quiz */
-  .quiz-box{padding:18px 14px;}
-  .quiz-question{font-size:17px;}
-  .quiz-choices{gap:7px;}
-  .quiz-choice{padding:10px 14px;font-size:13px;}
-
-  /* Interval */
-  .interval-selects{gap:8px;}
-  .interval-select{font-size:14px;padding:8px 10px;}
-  .interval-result{font-size:16px;}
-
-  /* Chord diagram — center */
-  .chord-canvas-wrap{padding:8px 0;}
-
-  /* TAB upload */
-  .upload-zone{padding:24px 14px;}
-  .upload-glyph{font-size:28px;}
-  .opt-row{flex-direction:column;gap:10px;}
-  .opt-group select{font-size:13px;padding:8px 10px;}
-  #convert-btn{width:100%;padding:10px;font-size:13px;}
-
-  /* Footer */
-  .page-footer{padding:12px 14px;flex-direction:column;gap:4px;text-align:center;}
-
-  /* Prog chords */
-  .prog-row{gap:6px;}
-  .prog-chord{min-width:60px;padding:8px 10px;}
-  .prog-name{font-size:12px;}
-
-  /* Mode desc */
-  .mode-desc{font-size:11px;}
-}
-
-/* Tablet tweaks */
-@media(min-width:641px) and (max-width:900px){
-  .frontispiece{padding:28px 32px 22px 40px;}
-  .page{padding:22px 32px 36px 40px;}
-  .nav-category{padding:0 32px;}
-  .page-footer{padding:11px 32px;}
-  .bpm-slider{width:140px;}
-  .compare-board{grid-template-columns:1fr 1fr;}
+@media(max-width:600px){
+  .page{padding:16px 13px 26px 16px;}
+  .frontispiece{padding:24px 13px 18px 16px;}
+  .nav-category{padding:0 10px;}
+  .page-footer{padding:10px 14px;}
+  .bpm-slider{width:120px;}
 }
 </style>
 </head>
@@ -415,43 +291,9 @@ canvas{display:block;}
     </div>
   </div>
 
-</div><!-- /nav-wrap -->
-
-<!-- Mobile dropdown nav -->
-<div class="mobile-nav">
-  <div class="mobile-nav-label">Navigate</div>
-  <select class="mobile-nav-select" id="mobile-nav-select" onchange="switchTab(parseInt(this.value))">
-    <optgroup label="── Scales ──">
-      <option value="0">1 · Major Scale</option>
-      <option value="1">2 · Minor Pentatonic</option>
-      <option value="2">3 · Blues Scale</option>
-      <option value="3">4 · Natural Minor</option>
-      <option value="4">5 · Harmonic Minor</option>
-      <option value="5">6 · Modes</option>
-      <option value="6">7 · 3 Notes Per String</option>
-      <option value="7">8 · Fretboard Map</option>
-    </optgroup>
-    <optgroup label="── Chords ──">
-      <option value="8">9 · Chord Diagrams</option>
-      <option value="9">10 · Chord Progressions</option>
-      <option value="10">11 · Scale → Chord Map</option>
-    </optgroup>
-    <optgroup label="── Theory ──">
-      <option value="11">12 · Scale Compare</option>
-      <option value="12">13 · Intervals</option>
-      <option value="13">14 · Capo Calculator</option>
-    </optgroup>
-    <optgroup label="── Practice ──">
-      <option value="14">15 · Metronome</option>
-      <option value="15">16 · Practice Log</option>
-      <option value="16">17 · Quiz</option>
-    </optgroup>
-    <optgroup label="── Audio ──">
-      <option value="17">18 · Tuner</option>
-      <option value="18">19 · Score → TAB</option>
-    </optgroup>
-  </select>
 </div>
+
+<div class="page">
 
 <!-- 1 Major -->
 <div class="panel active" id="panel-major">
@@ -1857,9 +1699,6 @@ const PANEL_MAP=[
 function switchTab(idx){
   document.querySelectorAll('.chapter').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
-  // sync mobile dropdown
-  const sel=document.getElementById('mobile-nav-select');
-  if(sel) sel.value=String(idx);
   const id=PANEL_MAP[idx];
   if(id==='major')dMajor();else if(id==='minor')dMinor();else if(id==='blues')dBlues();
   else if(id==='natminor')dNatMinor();else if(id==='harmminor')dHarmMinor();
