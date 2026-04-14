@@ -1649,7 +1649,7 @@ async function startTuner(){
     tunerAnalyser.fftSize=8192;
     src.connect(tunerAnalyser);
     tunerRunning=true;
-    document.getElementById('tuner-btn').textContent='Stop Tuner';
+    document.getElementById('tuner-btn').textContent=t('btn.disablemic');
     document.getElementById('tuner-btn').classList.add('active');
     tunerLoop();
   }catch(e){
@@ -1661,10 +1661,10 @@ function stopTuner(){
   if(tunerRaf)cancelAnimationFrame(tunerRaf);
   if(tunerStream)tunerStream.getTracks().forEach(t=>t.stop());
   if(tunerACtx)tunerACtx.close();
-  document.getElementById('tuner-btn').textContent='Enable Microphone';
+  document.getElementById('tuner-btn').textContent=t('btn.enablemic');
   document.getElementById('tuner-btn').classList.remove('active');
   document.getElementById('tuner-note').textContent='—';
-  document.getElementById('tuner-cents').textContent='Play a note to begin';
+  document.getElementById('tuner-cents').textContent=t('tuner.playnote');
   document.getElementById('tuner-cents').style.color='var(--ink3)';
   document.getElementById('tuner-bar').style.left='50%';
   document.getElementById('tuner-bar').style.background='var(--ink4)';
@@ -1695,7 +1695,7 @@ function autoCorrelate(buf,sr){
   if(rms<0.01)return-1;
   let r1=0,r2=SIZE-1;
   for(let i=0;i<SIZE/2;i++){if(Math.abs(buf[i])<0.2){r1=i;break;}}
-  for(let i=1;i<SIZE/2;i++){if(Math.abs(buf[SIZE-i])<0.2){r2=Size-i;break;}}
+  for(let i=1;i<SIZE/2;i++){if(Math.abs(buf[SIZE-i])<0.2){r2=SIZE-i;break;}}
   buf=buf.slice(r1,r2);SIZE=buf.length;
   const c=new Array(SIZE).fill(0);
   for(let i=0;i<SIZE;i++)for(let j=0;j<SIZE-i;j++)c[i]+=buf[j]*buf[j+i];
