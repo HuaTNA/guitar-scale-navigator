@@ -9930,6 +9930,7 @@ function drawFretmap(){
     for(let fret=fretmapLo;fret<=fretmapHi;fret++){
       const pitch=(OPEN_P[str]+fret)%12;
       const hi=fretmapHighlight>=0&&pitch===fretmapHighlight;
+      const dimmed=fretmapHighlight>=0&&!hi; // a different note is selected
       const row=5-str,y=SY+row*SH;
       let cx;
       if(fret===0)cx=SX-17;
@@ -9939,10 +9940,16 @@ function drawFretmap(){
         ctx.fillStyle='#8b2020';ctx.fill();
         ctx.font='500 7px var(--mono,monospace)';ctx.fillStyle='#fff';
         ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(NOTE_NAMES[pitch],cx,y);ctx.textBaseline='alphabetic';
-      } else {
+      } else if(dimmed){
         ctx.beginPath();ctx.arc(cx,y,R,0,Math.PI*2);
-        ctx.fillStyle=C_BG;ctx.fill();ctx.strokeStyle='rgba(28,24,20,0.18)';ctx.lineWidth=0.7;ctx.stroke();
-        ctx.font='7px var(--mono,monospace)';ctx.fillStyle='rgba(28,24,20,0.5)';
+        ctx.fillStyle=C_BG;ctx.fill();ctx.strokeStyle='rgba(28,24,20,0.12)';ctx.lineWidth=0.7;ctx.stroke();
+        ctx.font='7px var(--mono,monospace)';ctx.fillStyle='rgba(28,24,20,0.22)';
+        ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(NOTE_NAMES[pitch],cx,y);ctx.textBaseline='alphabetic';
+      } else {
+        // All mode — show every note visibly
+        ctx.beginPath();ctx.arc(cx,y,R,0,Math.PI*2);
+        ctx.fillStyle='rgba(180,168,148,0.35)';ctx.fill();ctx.strokeStyle='rgba(28,24,20,0.25)';ctx.lineWidth=0.8;ctx.stroke();
+        ctx.font='7px var(--mono,monospace)';ctx.fillStyle='rgba(28,24,20,0.7)';
         ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(NOTE_NAMES[pitch],cx,y);ctx.textBaseline='alphabetic';
       }
     }
