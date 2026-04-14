@@ -215,6 +215,10 @@ canvas{display:block;}
 .page-footer{padding:11px 60px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;background:var(--paper2);}
 .footer-text{font-size:10px;color:var(--ink4);font-style:italic;}
 
+/* ── Lang Toggle ── */
+.lang-btn{position:absolute;top:12px;right:14px;padding:3px 10px;background:transparent;border:1px solid var(--rule);color:var(--ink3);font-size:10px;letter-spacing:0.1em;cursor:pointer;border-radius:2px;font-family:var(--sans);transition:all 0.15s;z-index:10;}
+.lang-btn:hover{border-color:var(--gold);color:var(--ink2);}
+
 @media(max-width:600px){
   .page{padding:16px 13px 26px 16px;}
   .frontispiece{padding:24px 13px 18px 16px;}
@@ -229,11 +233,12 @@ canvas{display:block;}
 
 <!-- Header -->
 <div class="frontispiece">
-  <div class="title-pre">A Complete Navigator for the Fretboard</div>
+  <button class="lang-btn" id="lang-btn" onclick="toggleLang()">中文</button>
+  <div class="title-pre" data-i18n="header.pre">A Complete Navigator for the Fretboard</div>
   <div class="title-main">Guitar Scale <em>Navigator</em></div>
-  <div class="title-sub">Complete Edition · All Scales · All Keys · All Tools</div>
+  <div class="title-sub" data-i18n="header.sub">Complete Edition · All Scales · All Keys · All Tools</div>
   <div class="title-rule"></div>
-  <div class="subtitle">
+  <div class="subtitle" data-i18n="header.subtitle">
     Scales &amp; Modes · Chord Library · Theory Tools · Practice Tools · Audio Tools · Score→TAB
   </div>
   <div class="deco">𝄞</div>
@@ -243,51 +248,51 @@ canvas{display:block;}
 <div class="nav-wrap">
 
   <div class="nav-category">
-    <div class="cat-label">Scales</div>
+    <div class="cat-label" data-i18n="cat.scales">Scales</div>
     <div class="cat-tabs">
-      <div class="chapter active" onclick="switchTab(0)"><span class="ch-num">1</span>Major</div>
-      <div class="chapter" onclick="switchTab(1)"><span class="ch-num">2</span>Minor Penta</div>
-      <div class="chapter" onclick="switchTab(2)"><span class="ch-num">3</span>Blues</div>
-      <div class="chapter" onclick="switchTab(3)"><span class="ch-num">4</span>Nat. Minor</div>
-      <div class="chapter" onclick="switchTab(4)"><span class="ch-num">5</span>Harm. Minor</div>
-      <div class="chapter" onclick="switchTab(5)"><span class="ch-num">6</span>Modes</div>
-      <div class="chapter" onclick="switchTab(6)"><span class="ch-num">7</span>3NPS</div>
-      <div class="chapter" onclick="switchTab(7)"><span class="ch-num">8</span>Fretboard Map</div>
+      <div class="chapter active" onclick="switchTab(0)" data-i18n-text="tab.major"><span class="ch-num">1</span>Major</div>
+      <div class="chapter" onclick="switchTab(1)" data-i18n-text="tab.minor"><span class="ch-num">2</span>Minor Penta</div>
+      <div class="chapter" onclick="switchTab(2)" data-i18n-text="tab.blues"><span class="ch-num">3</span>Blues</div>
+      <div class="chapter" onclick="switchTab(3)" data-i18n-text="tab.natminor"><span class="ch-num">4</span>Nat. Minor</div>
+      <div class="chapter" onclick="switchTab(4)" data-i18n-text="tab.harmminor"><span class="ch-num">5</span>Harm. Minor</div>
+      <div class="chapter" onclick="switchTab(5)" data-i18n-text="tab.modes"><span class="ch-num">6</span>Modes</div>
+      <div class="chapter" onclick="switchTab(6)" data-i18n-text="tab.nps"><span class="ch-num">7</span>3NPS</div>
+      <div class="chapter" onclick="switchTab(7)" data-i18n-text="tab.fretmap"><span class="ch-num">8</span>Fretboard Map</div>
     </div>
   </div>
 
   <div class="nav-category">
-    <div class="cat-label">Chords</div>
+    <div class="cat-label" data-i18n="cat.chords">Chords</div>
     <div class="cat-tabs">
-      <div class="chapter" onclick="switchTab(8)"><span class="ch-num">9</span>Chord Diagrams</div>
-      <div class="chapter" onclick="switchTab(9)"><span class="ch-num">10</span>Chord Progressions</div>
-      <div class="chapter" onclick="switchTab(10)"><span class="ch-num">11</span>Scale→Chord Map</div>
+      <div class="chapter" onclick="switchTab(8)" data-i18n-text="tab.chords"><span class="ch-num">9</span>Chord Diagrams</div>
+      <div class="chapter" onclick="switchTab(9)" data-i18n-text="tab.prog"><span class="ch-num">10</span>Chord Progressions</div>
+      <div class="chapter" onclick="switchTab(10)" data-i18n-text="tab.scalechord"><span class="ch-num">11</span>Scale→Chord Map</div>
     </div>
   </div>
 
   <div class="nav-category">
-    <div class="cat-label">Theory</div>
+    <div class="cat-label" data-i18n="cat.theory">Theory</div>
     <div class="cat-tabs">
-      <div class="chapter" onclick="switchTab(11)"><span class="ch-num">12</span>Scale Compare</div>
-      <div class="chapter" onclick="switchTab(12)"><span class="ch-num">13</span>Intervals</div>
-      <div class="chapter" onclick="switchTab(13)"><span class="ch-num">14</span>Capo Calculator</div>
+      <div class="chapter" onclick="switchTab(11)" data-i18n-text="tab.compare"><span class="ch-num">12</span>Scale Compare</div>
+      <div class="chapter" onclick="switchTab(12)" data-i18n-text="tab.intervals"><span class="ch-num">13</span>Intervals</div>
+      <div class="chapter" onclick="switchTab(13)" data-i18n-text="tab.capo"><span class="ch-num">14</span>Capo Calculator</div>
     </div>
   </div>
 
   <div class="nav-category">
-    <div class="cat-label">Practice</div>
+    <div class="cat-label" data-i18n="cat.practice">Practice</div>
     <div class="cat-tabs">
-      <div class="chapter" onclick="switchTab(14)"><span class="ch-num">15</span>Metronome</div>
-      <div class="chapter" onclick="switchTab(15)"><span class="ch-num">16</span>Practice Log</div>
-      <div class="chapter" onclick="switchTab(16)"><span class="ch-num">17</span>Quiz</div>
+      <div class="chapter" onclick="switchTab(14)" data-i18n-text="tab.metro"><span class="ch-num">15</span>Metronome</div>
+      <div class="chapter" onclick="switchTab(15)" data-i18n-text="tab.log"><span class="ch-num">16</span>Practice Log</div>
+      <div class="chapter" onclick="switchTab(16)" data-i18n-text="tab.quiz"><span class="ch-num">17</span>Quiz</div>
     </div>
   </div>
 
   <div class="nav-category">
-    <div class="cat-label">Audio</div>
+    <div class="cat-label" data-i18n="cat.audio">Audio</div>
     <div class="cat-tabs">
-      <div class="chapter" onclick="switchTab(17)"><span class="ch-num">18</span>Tuner</div>
-      <div class="chapter" onclick="switchTab(18)"><span class="ch-num">19</span>Score→TAB</div>
+      <div class="chapter" onclick="switchTab(17)" data-i18n-text="tab.tuner"><span class="ch-num">18</span>Tuner</div>
+      <div class="chapter" onclick="switchTab(18)" data-i18n-text="tab.tab"><span class="ch-num">19</span>Score→TAB</div>
     </div>
   </div>
 
@@ -297,204 +302,204 @@ canvas{display:block;}
 
 <!-- 1 Major -->
 <div class="panel active" id="panel-major">
-  <div class="sec-head"><span class="sec-num">Scales · 1</span><span class="sec-title">Major Scale — 5 Modal Shapes</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="major-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Shape</div><div class="btn-row" id="major-shape-row"></div></div>
-  <div class="toggle-row"><span class="toggle-label">Label:</span>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.major">Scales · 1</span><span class="sec-title" data-i18n="sectitle.major">Major Scale — 5 Modal Shapes</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="major-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.shape">Shape</div><div class="btn-row" id="major-shape-row"></div></div>
+  <div class="toggle-row"><span class="toggle-label" data-i18n="ctrl.label">Label:</span>
     <button class="tbtn active" onclick="setMode('major','num')">1–7</button>
-    <button class="tbtn" onclick="setMode('major','note')">Note</button>
-    <button class="tbtn" onclick="setMode('major','solfege')">Solfège</button>
+    <button class="tbtn" onclick="setMode('major','note')" data-i18n="btn.note">Note</button>
+    <button class="tbtn" onclick="setMode('major','solfege')" data-i18n="btn.solfege">Solfège</button>
   </div>
   <div class="board-frame"><canvas id="cv-major"></canvas></div>
   <div class="legend-row" id="legend-major"></div>
-  <div class="connection-title" style="margin-top:12px">Shape connections — full fretboard</div>
+  <div class="connection-title" style="margin-top:12px" data-i18n="conn.major">Shape connections — full fretboard</div>
   <div class="connection-wrap"><canvas id="cv-major-conn"></canvas></div>
-  <div class="annotation">Five shapes link end-to-end across the neck. <strong>To change key, shift the whole pattern</strong> — the shape stays identical. Each shape is named after its characteristic note.</div>
+  <div class="annotation" data-i18n="ann.major">Five shapes link end-to-end across the neck. <strong>To change key, shift the whole pattern</strong> — the shape stays identical. Each shape is named after its characteristic note.</div>
 </div>
 
 <!-- 2 Minor Penta -->
 <div class="panel" id="panel-minor">
-  <div class="sec-head"><span class="sec-num">Scales · 2</span><span class="sec-title">Minor Pentatonic Scale</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="minor-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Shape</div><div class="btn-row" id="minor-shape-row"></div></div>
-  <div class="toggle-row"><span class="toggle-label">Label:</span>
-    <button class="tbtn active" onclick="setMode('minor','num')">Degree</button>
-    <button class="tbtn" onclick="setMode('minor','note')">Note</button>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.minor">Scales · 2</span><span class="sec-title" data-i18n="sectitle.minor">Minor Pentatonic Scale</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="minor-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.shape">Shape</div><div class="btn-row" id="minor-shape-row"></div></div>
+  <div class="toggle-row"><span class="toggle-label" data-i18n="ctrl.label">Label:</span>
+    <button class="tbtn active" onclick="setMode('minor','num')" data-i18n="btn.degree">Degree</button>
+    <button class="tbtn" onclick="setMode('minor','note')" data-i18n="btn.note">Note</button>
   </div>
   <div class="board-frame"><canvas id="cv-minor"></canvas></div>
   <div class="legend-row" id="legend-minor"></div>
-  <div class="connection-title" style="margin-top:12px">Five shape connections</div>
+  <div class="connection-title" style="margin-top:12px" data-i18n="conn.minor">Five shape connections</div>
   <div class="connection-wrap"><canvas id="cv-minor-conn"></canvas></div>
-  <div class="annotation">Contains <strong>1, ♭3, 4, 5, ♭7</strong> — the core of blues, rock, and metal improvisation. Five CAGED shapes connect end-to-end across the neck.</div>
+  <div class="annotation" data-i18n="ann.minor">Contains <strong>1, ♭3, 4, 5, ♭7</strong> — the core of blues, rock, and metal improvisation. Five CAGED shapes connect end-to-end across the neck.</div>
 </div>
 
 <!-- 3 Blues -->
 <div class="panel" id="panel-blues">
-  <div class="sec-head"><span class="sec-num">Scales · 3</span><span class="sec-title">Blues Scale</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="blues-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Shape</div><div class="btn-row" id="blues-shape-row"></div></div>
-  <div class="toggle-row"><span class="toggle-label">Label:</span>
-    <button class="tbtn active" onclick="setMode('blues','num')">Degree</button>
-    <button class="tbtn" onclick="setMode('blues','note')">Note</button>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.blues">Scales · 3</span><span class="sec-title" data-i18n="sectitle.blues">Blues Scale</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="blues-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.shape">Shape</div><div class="btn-row" id="blues-shape-row"></div></div>
+  <div class="toggle-row"><span class="toggle-label" data-i18n="ctrl.label">Label:</span>
+    <button class="tbtn active" onclick="setMode('blues','num')" data-i18n="btn.degree">Degree</button>
+    <button class="tbtn" onclick="setMode('blues','note')" data-i18n="btn.note">Note</button>
   </div>
   <div class="board-frame"><canvas id="cv-blues"></canvas></div>
   <div class="legend-row" id="legend-blues"></div>
-  <div class="annotation">Minor pentatonic + <strong>♭5 (the "blue note")</strong> = 6 notes. The ♭5 is the signature tension of blues and rock — use string bends on it for maximum expression.</div>
+  <div class="annotation" data-i18n="ann.blues">Minor pentatonic + <strong>♭5 (the "blue note")</strong> = 6 notes. The ♭5 is the signature tension of blues and rock — use string bends on it for maximum expression.</div>
 </div>
 
 <!-- 4 Natural Minor -->
 <div class="panel" id="panel-natminor">
-  <div class="sec-head"><span class="sec-num">Scales · 4</span><span class="sec-title">Natural Minor (Aeolian)</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="natminor-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Shape</div><div class="btn-row" id="natminor-shape-row"></div></div>
-  <div class="toggle-row"><span class="toggle-label">Label:</span>
-    <button class="tbtn active" onclick="setMode('natminor','num')">Degree</button>
-    <button class="tbtn" onclick="setMode('natminor','note')">Note</button>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.natminor">Scales · 4</span><span class="sec-title" data-i18n="sectitle.natminor">Natural Minor (Aeolian)</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="natminor-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.shape">Shape</div><div class="btn-row" id="natminor-shape-row"></div></div>
+  <div class="toggle-row"><span class="toggle-label" data-i18n="ctrl.label">Label:</span>
+    <button class="tbtn active" onclick="setMode('natminor','num')" data-i18n="btn.degree">Degree</button>
+    <button class="tbtn" onclick="setMode('natminor','note')" data-i18n="btn.note">Note</button>
   </div>
   <div class="board-frame"><canvas id="cv-natminor"></canvas></div>
   <div class="legend-row" id="legend-natminor"></div>
-  <div class="annotation">Formula: <strong>1, 2, ♭3, 4, 5, ♭6, ♭7</strong>. A minor is the relative minor of C major — same notes, different tonal center.</div>
+  <div class="annotation" data-i18n="ann.natminor">Formula: <strong>1, 2, ♭3, 4, 5, ♭6, ♭7</strong>. A minor is the relative minor of C major — same notes, different tonal center.</div>
 </div>
 
 <!-- 5 Harmonic Minor -->
 <div class="panel" id="panel-harmminor">
-  <div class="sec-head"><span class="sec-num">Scales · 5</span><span class="sec-title">Harmonic Minor Scale</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="harmminor-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Shape</div><div class="btn-row" id="harmminor-shape-row"></div></div>
-  <div class="toggle-row"><span class="toggle-label">Label:</span>
-    <button class="tbtn active" onclick="setMode('harmminor','num')">Degree</button>
-    <button class="tbtn" onclick="setMode('harmminor','note')">Note</button>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.harmminor">Scales · 5</span><span class="sec-title" data-i18n="sectitle.harmminor">Harmonic Minor Scale</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="harmminor-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.shape">Shape</div><div class="btn-row" id="harmminor-shape-row"></div></div>
+  <div class="toggle-row"><span class="toggle-label" data-i18n="ctrl.label">Label:</span>
+    <button class="tbtn active" onclick="setMode('harmminor','num')" data-i18n="btn.degree">Degree</button>
+    <button class="tbtn" onclick="setMode('harmminor','note')" data-i18n="btn.note">Note</button>
   </div>
   <div class="board-frame"><canvas id="cv-harmminor"></canvas></div>
   <div class="legend-row" id="legend-harmminor"></div>
-  <div class="annotation">Natural minor with a <strong>raised 7th</strong>: 1, 2, ♭3, 4, 5, ♭6, 7. The raised 7 creates a dramatic "exotic" sound — classical, flamenco, metal, Middle-Eastern.</div>
+  <div class="annotation" data-i18n="ann.harmminor">Natural minor with a <strong>raised 7th</strong>: 1, 2, ♭3, 4, 5, ♭6, 7. The raised 7 creates a dramatic "exotic" sound — classical, flamenco, metal, Middle-Eastern.</div>
 </div>
 
 <!-- 6 Modes -->
 <div class="panel" id="panel-modes">
-  <div class="sec-head"><span class="sec-num">Scales · 6</span><span class="sec-title">Modal Scales</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="modes-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Mode</div><div class="btn-row" id="modes-mode-row"></div></div>
-  <div class="toggle-row"><span class="toggle-label">Label:</span>
-    <button class="tbtn active" onclick="setMode('modes','num')">Degree</button>
-    <button class="tbtn" onclick="setMode('modes','note')">Note</button>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.modes">Scales · 6</span><span class="sec-title" data-i18n="sectitle.modes">Modal Scales</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="modes-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.mode">Mode</div><div class="btn-row" id="modes-mode-row"></div></div>
+  <div class="toggle-row"><span class="toggle-label" data-i18n="ctrl.label">Label:</span>
+    <button class="tbtn active" onclick="setMode('modes','num')" data-i18n="btn.degree">Degree</button>
+    <button class="tbtn" onclick="setMode('modes','note')" data-i18n="btn.note">Note</button>
   </div>
-  <div class="mode-desc" id="mode-desc">Select a mode above.</div>
+  <div class="mode-desc" id="mode-desc" data-i18n="misc.selectmode">Select a mode above.</div>
   <div class="board-frame"><canvas id="cv-modes"></canvas></div>
   <div class="legend-row" id="legend-modes"></div>
-  <div class="annotation">All 7 modes use the same notes as the major scale — just starting on a different degree. Each has a distinct character: <strong>Dorian</strong> = jazz/funk, <strong>Phrygian</strong> = metal/flamenco, <strong>Lydian</strong> = dreamy, <strong>Mixolydian</strong> = blues-rock.</div>
+  <div class="annotation" data-i18n="ann.modes">All 7 modes use the same notes as the major scale — just starting on a different degree. Each has a distinct character: <strong>Dorian</strong> = jazz/funk, <strong>Phrygian</strong> = metal/flamenco, <strong>Lydian</strong> = dreamy, <strong>Mixolydian</strong> = blues-rock.</div>
 </div>
 
 <!-- 7 3NPS -->
 <div class="panel" id="panel-3nps">
-  <div class="sec-head"><span class="sec-num">Scales · 7</span><span class="sec-title">3 Notes Per String</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="nps-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Position</div><div class="btn-row" id="nps-pos-row"></div></div>
-  <div class="toggle-row"><span class="toggle-label">Label:</span>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.nps">Scales · 7</span><span class="sec-title" data-i18n="sectitle.nps">3 Notes Per String</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="nps-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.position">Position</div><div class="btn-row" id="nps-pos-row"></div></div>
+  <div class="toggle-row"><span class="toggle-label" data-i18n="ctrl.label">Label:</span>
     <button class="tbtn active" onclick="setMode('nps','num')">1–7</button>
-    <button class="tbtn" onclick="setMode('nps','note')">Note</button>
-    <button class="tbtn" onclick="setMode('nps','solfege')">Solfège</button>
+    <button class="tbtn" onclick="setMode('nps','note')" data-i18n="btn.note">Note</button>
+    <button class="tbtn" onclick="setMode('nps','solfege')" data-i18n="btn.solfege">Solfège</button>
   </div>
   <div class="board-frame"><canvas id="cv-nps"></canvas></div>
   <div class="legend-row" id="legend-nps"></div>
-  <div class="annotation">3 notes per string, 7 positions linking end-to-end. <strong>Essential for speed and legato</strong> — the uniform 3-note pattern makes alternate picking highly efficient.</div>
+  <div class="annotation" data-i18n="ann.nps">3 notes per string, 7 positions linking end-to-end. <strong>Essential for speed and legato</strong> — the uniform 3-note pattern makes alternate picking highly efficient.</div>
 </div>
 
 <!-- 8 Fretboard Map -->
 <div class="panel" id="panel-fretmap">
-  <div class="sec-head"><span class="sec-num">Scales · 8</span><span class="sec-title">Full Fretboard Map</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Highlight note</div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.fretmap">Scales · 8</span><span class="sec-title" data-i18n="sectitle.fretmap">Full Fretboard Map</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.highlight">Highlight note</div>
     <div class="btn-row" id="fretmap-note-row"></div>
   </div>
-  <div class="ctrl-block"><div class="ctrl-label">Fret range</div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.fretrange">Fret range</div>
     <div class="btn-row">
-      <button class="pbtn active" onclick="setFretRange(0,12,this)">Frets 0–12</button>
-      <button class="pbtn" onclick="setFretRange(12,24,this)">Frets 12–24</button>
-      <button class="pbtn" onclick="setFretRange(0,24,this)">Full neck</button>
+      <button class="pbtn active" onclick="setFretRange(0,12,this)" data-i18n="btn.frets012">Frets 0–12</button>
+      <button class="pbtn" onclick="setFretRange(12,24,this)" data-i18n="btn.frets1224">Frets 12–24</button>
+      <button class="pbtn" onclick="setFretRange(0,24,this)" data-i18n="btn.fullneck">Full neck</button>
     </div>
   </div>
   <div class="fretmap-wrap"><canvas id="cv-fretmap"></canvas></div>
   <div class="legend-row">
-    <div class="legend-item"><div class="ldot" style="background:#8b2020;color:#fff">A</div>Highlighted note</div>
-    <div class="legend-item"><div class="ldot" style="background:#ede7d9;border:1px solid var(--rule);color:var(--ink3)">C</div>Other notes</div>
-    <div class="info-stamp" id="fretmap-info">All notes</div>
+    <div class="legend-item"><div class="ldot" style="background:#8b2020;color:#fff">A</div><span data-i18n="legend.highlighted">Highlighted note</span></div>
+    <div class="legend-item"><div class="ldot" style="background:#ede7d9;border:1px solid var(--rule);color:var(--ink3)">C</div><span data-i18n="legend.other">Other notes</span></div>
+    <div class="info-stamp" id="fretmap-info" data-i18n="misc.allnotes">All notes</div>
   </div>
-  <div class="annotation">The complete fretboard showing every note from fret 0 to 24. Select a note to <strong>highlight all its positions</strong> across the neck — essential for learning note locations.</div>
+  <div class="annotation" data-i18n="ann.fretmap">The complete fretboard showing every note from fret 0 to 24. Select a note to <strong>highlight all its positions</strong> across the neck — essential for learning note locations.</div>
 </div>
 
 <!-- 9 Chord Diagrams -->
 <div class="panel" id="panel-chords">
-  <div class="sec-head"><span class="sec-num">Chords · 9</span><span class="sec-title">Chord Diagrams</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Chord</div><div class="btn-row" id="chord-list-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Type</div><div class="btn-row" id="chord-type-row"></div></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.chords">Chords · 9</span><span class="sec-title" data-i18n="sectitle.chords">Chord Diagrams</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.chord">Chord</div><div class="btn-row" id="chord-list-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.type">Type</div><div class="btn-row" id="chord-type-row"></div></div>
   <div class="chord-canvas-wrap"><canvas id="cv-chord" width="200" height="230"></canvas></div>
   <div class="legend-row" id="legend-chord">
-    <div class="legend-item"><div class="ldot" style="background:#8b2020;color:#fff">R</div>Root</div>
-    <div class="legend-item"><div class="ldot" style="background:#1a5c48;color:#fff">3</div>3rd</div>
-    <div class="legend-item"><div class="ldot" style="background:#2d5a8a;color:#fff">5</div>5th</div>
-    <div class="legend-item"><div class="ldot" style="background:#8a4820;color:#fff">7</div>7th</div>
+    <div class="legend-item"><div class="ldot" style="background:#8b2020;color:#fff">R</div><span data-i18n="legend.root">Root</span></div>
+    <div class="legend-item"><div class="ldot" style="background:#1a5c48;color:#fff">3</div><span data-i18n="legend.3rd">3rd</span></div>
+    <div class="legend-item"><div class="ldot" style="background:#2d5a8a;color:#fff">5</div><span data-i18n="legend.5th">5th</span></div>
+    <div class="legend-item"><div class="ldot" style="background:#8a4820;color:#fff">7</div><span data-i18n="legend.7th">7th</span></div>
     <div class="info-stamp" id="chord-info">C Major</div>
   </div>
-  <div class="annotation">Common chord voicings. Open position chords use open strings for a full sound. Barre chords are <strong>moveable shapes</strong> — the same fingering works in every key.</div>
+  <div class="annotation" data-i18n="ann.chords">Common chord voicings. Open position chords use open strings for a full sound. Barre chords are <strong>moveable shapes</strong> — the same fingering works in every key.</div>
 </div>
 
 <!-- 10 Chord Progressions -->
 <div class="panel" id="panel-prog">
-  <div class="sec-head"><span class="sec-num">Chords · 10</span><span class="sec-title">Chord Progressions</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="prog-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Scale type</div><div class="btn-row" id="prog-type-row"></div></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.prog">Chords · 10</span><span class="sec-title" data-i18n="sectitle.prog">Chord Progressions</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="prog-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.scaletype">Scale type</div><div class="btn-row" id="prog-type-row"></div></div>
   <div class="prog-box" id="prog-chords-box"></div>
   <div class="ctrl-block">
-    <div class="ctrl-label">Common progressions</div>
+    <div class="ctrl-label" data-i18n="ctrl.commonprog">Common progressions</div>
     <div class="btn-row" id="prog-presets-row"></div>
   </div>
   <div id="prog-preset-display" style="margin-bottom:12px;font-size:12px;color:var(--ink2);font-family:var(--mono);"></div>
-  <div class="annotation">All chords naturally available in this key and scale. Roman numerals show the degree: <strong>uppercase = major</strong>, lowercase = minor, ° = diminished. Click any chord to see its notes.</div>
+  <div class="annotation" data-i18n="ann.prog">All chords naturally available in this key and scale. Roman numerals show the degree: <strong>uppercase = major</strong>, lowercase = minor, ° = diminished. Click any chord to see its notes.</div>
 </div>
 
 <!-- 11 Scale→Chord Map -->
 <div class="panel" id="panel-scalechord">
-  <div class="sec-head"><span class="sec-num">Chords · 11</span><span class="sec-title">Scale → Chord Compatibility</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="sc-key-row"></div></div>
-  <div class="ctrl-block"><div class="ctrl-label">Scale</div><div class="btn-row" id="sc-scale-row"></div></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.scalechord">Chords · 11</span><span class="sec-title" data-i18n="sectitle.scalechord">Scale → Chord Compatibility</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="sc-key-row"></div></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.scale">Scale</div><div class="btn-row" id="sc-scale-row"></div></div>
   <table class="scalechord-table" id="sc-table">
-    <thead><tr><th>Chord</th><th>Type</th><th>Compatibility</th><th>Tip</th></tr></thead>
+    <thead><tr><th data-i18n="th.chord">Chord</th><th data-i18n="th.type">Type</th><th data-i18n="th.compat">Compatibility</th><th data-i18n="th.tip">Tip</th></tr></thead>
     <tbody id="sc-body"></tbody>
   </table>
-  <div class="annotation">Shows which chords work well with a given scale. <strong>Green = excellent fit</strong> (most scale notes fit the chord), amber = workable, use with care.</div>
+  <div class="annotation" data-i18n="ann.scalechord">Shows which chords work well with a given scale. <strong>Green = excellent fit</strong> (most scale notes fit the chord), amber = workable, use with care.</div>
 </div>
 
 <!-- 12 Compare -->
 <div class="panel" id="panel-compare">
-  <div class="sec-head"><span class="sec-num">Theory · 12</span><span class="sec-title">Scale Comparison</span></div>
-  <div class="ctrl-block"><div class="ctrl-label">Key</div><div class="btn-row" id="cmp-key-row"></div></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.compare">Theory · 12</span><span class="sec-title" data-i18n="sectitle.compare">Scale Comparison</span></div>
+  <div class="ctrl-block"><div class="ctrl-label" data-i18n="ctrl.key">Key</div><div class="btn-row" id="cmp-key-row"></div></div>
   <div class="compare-board">
     <div>
-      <div class="compare-label">Scale A</div>
+      <div class="compare-label" data-i18n="compare.scalea">Scale A</div>
       <div class="btn-row" id="cmp-a-row" style="margin-bottom:7px;justify-content:center;flex-wrap:wrap;"></div>
       <div class="board-frame"><canvas id="cv-cmp-a"></canvas></div>
     </div>
     <div>
-      <div class="compare-label">Scale B</div>
+      <div class="compare-label" data-i18n="compare.scaleb">Scale B</div>
       <div class="btn-row" id="cmp-b-row" style="margin-bottom:7px;justify-content:center;flex-wrap:wrap;"></div>
       <div class="board-frame"><canvas id="cv-cmp-b"></canvas></div>
     </div>
   </div>
   <div class="legend-row">
-    <div class="legend-item"><div class="ldot" style="background:#8b2020;color:#fff">●</div>Root</div>
-    <div class="legend-item"><div class="ldot" style="background:#1a5c48;color:#fff">●</div>In both scales</div>
-    <div class="legend-item"><div class="ldot" style="background:#2d5a8a;color:#fff">●</div>Scale A only</div>
-    <div class="legend-item"><div class="ldot" style="background:#8a4820;color:#fff">●</div>Scale B only</div>
+    <div class="legend-item"><div class="ldot" style="background:#8b2020;color:#fff">●</div><span data-i18n="legend.root">Root</span></div>
+    <div class="legend-item"><div class="ldot" style="background:#1a5c48;color:#fff">●</div><span data-i18n="legend.inboth">In both scales</span></div>
+    <div class="legend-item"><div class="ldot" style="background:#2d5a8a;color:#fff">●</div><span data-i18n="legend.scaleaonly">Scale A only</span></div>
+    <div class="legend-item"><div class="ldot" style="background:#8a4820;color:#fff">●</div><span data-i18n="legend.scalebonly">Scale B only</span></div>
     <div class="info-stamp" id="cmp-info">—</div>
   </div>
-  <div class="annotation">Compare any two scales side by side. Shared notes let you transition smoothly between scales during improvisation.</div>
+  <div class="annotation" data-i18n="ann.compare">Compare any two scales side by side. Shared notes let you transition smoothly between scales during improvisation.</div>
 </div>
 
 <!-- 13 Intervals -->
 <div class="panel" id="panel-intervals">
-  <div class="sec-head"><span class="sec-num">Theory · 13</span><span class="sec-title">Interval Calculator</span></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.intervals">Theory · 13</span><span class="sec-title" data-i18n="sectitle.intervals">Interval Calculator</span></div>
   <div class="interval-box">
-    <div class="ctrl-label" style="margin-bottom:9px">Select two notes</div>
+    <div class="ctrl-label" style="margin-bottom:9px" data-i18n="ctrl.seltwonotes">Select two notes</div>
     <div class="interval-selects">
       <select class="interval-select" id="int-a" onchange="calcInterval()">
         <option>C</option><option>C#</option><option>D</option><option>D#</option>
@@ -517,22 +522,22 @@ canvas{display:block;}
 
 <!-- 14 Capo Calculator -->
 <div class="panel" id="panel-capo">
-  <div class="sec-head"><span class="sec-num">Theory · 14</span><span class="sec-title">Capo Calculator</span></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.capo">Theory · 14</span><span class="sec-title" data-i18n="sectitle.capo">Capo Calculator</span></div>
   <div class="capo-box">
-    <div class="ctrl-label" style="margin-bottom:8px">Original key (no capo)</div>
+    <div class="ctrl-label" style="margin-bottom:8px" data-i18n="ctrl.origkey">Original key (no capo)</div>
     <div class="btn-row" id="capo-orig-row" style="margin-bottom:12px;"></div>
-    <div class="ctrl-label" style="margin-bottom:8px">Target key (what you want to sound like)</div>
+    <div class="ctrl-label" style="margin-bottom:8px" data-i18n="ctrl.targetkey">Target key (what you want to sound like)</div>
     <div class="btn-row" id="capo-target-row" style="margin-bottom:12px;"></div>
     <div class="capo-result" id="capo-result">—</div>
     <div class="capo-desc" id="capo-desc"></div>
     <table class="capo-table" id="capo-table"></table>
   </div>
-  <div class="annotation">Use a capo to play in a different key using familiar open chord shapes. <strong>Capo on fret X</strong> means your open strings now sound X semitones higher.</div>
+  <div class="annotation" data-i18n="ann.capo">Use a capo to play in a different key using familiar open chord shapes. <strong>Capo on fret X</strong> means your open strings now sound X semitones higher.</div>
 </div>
 
 <!-- 15 Metronome -->
 <div class="panel" id="panel-metro">
-  <div class="sec-head"><span class="sec-num">Practice · 15</span><span class="sec-title">Metronome</span></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.metro">Practice · 15</span><span class="sec-title" data-i18n="sectitle.metro">Metronome</span></div>
   <div class="metronome-box">
     <div><div class="bpm-display" id="bpm-display">80</div><div class="bpm-label">BPM</div></div>
     <div class="bpm-controls">
@@ -545,27 +550,27 @@ canvas{display:block;}
       </div>
     </div>
     <div>
-      <div class="ctrl-label" style="margin-bottom:5px">Time Sig</div>
+      <div class="ctrl-label" style="margin-bottom:5px" data-i18n="ctrl.timesig">Time Sig</div>
       <div class="btn-row" style="margin-bottom:8px">
         <button class="pbtn active" onclick="setTimeSig(2,this)">2/4</button>
         <button class="pbtn" onclick="setTimeSig(3,this)">3/4</button>
         <button class="pbtn" onclick="setTimeSig(4,this)">4/4</button>
         <button class="pbtn" onclick="setTimeSig(6,this)">6/8</button>
       </div>
-      <div class="ctrl-label" style="margin-bottom:5px">Feel</div>
+      <div class="ctrl-label" style="margin-bottom:5px" data-i18n="ctrl.feel">Feel</div>
       <div class="btn-row">
-        <button class="pbtn active" onclick="setFeel('straight',this)">Straight</button>
-        <button class="pbtn" onclick="setFeel('shuffle',this)">Shuffle</button>
-        <button class="pbtn" onclick="setFeel('triplet',this)">Triplet</button>
+        <button class="pbtn active" onclick="setFeel('straight',this)" data-i18n="btn.straight">Straight</button>
+        <button class="pbtn" onclick="setFeel('shuffle',this)" data-i18n="btn.shuffle">Shuffle</button>
+        <button class="pbtn" onclick="setFeel('triplet',this)" data-i18n="btn.triplet">Triplet</button>
       </div>
     </div>
     <div>
       <div class="beat-visual" id="beat-visual"></div>
-      <div style="margin-top:9px"><button class="metro-btn" id="metro-btn" onclick="toggleMetro()">Start</button></div>
+      <div style="margin-top:9px"><button class="metro-btn" id="metro-btn" onclick="toggleMetro()" data-i18n="btn.start">Start</button></div>
     </div>
   </div>
   <div class="ctrl-block">
-    <div class="ctrl-label">Tempo presets</div>
+    <div class="ctrl-label" data-i18n="ctrl.tempopresets">Tempo presets</div>
     <div class="btn-row">
       <button class="sbtn" onclick="setBpm(60);document.getElementById('bpm-slider').value=60">Largo 60</button>
       <button class="sbtn" onclick="setBpm(76);document.getElementById('bpm-slider').value=76">Andante 76</button>
@@ -574,66 +579,66 @@ canvas{display:block;}
       <button class="sbtn" onclick="setBpm(168);document.getElementById('bpm-slider').value=168">Presto 168</button>
     </div>
   </div>
-  <div class="annotation">Start slow (60 BPM), master the shape, then increase by 5 BPM at a time. <strong>When you change keys, return to slow tempo</strong> and build up again.</div>
+  <div class="annotation" data-i18n="ann.metro">Start slow (60 BPM), master the shape, then increase by 5 BPM at a time. <strong>When you change keys, return to slow tempo</strong> and build up again.</div>
 </div>
 
 <!-- 16 Practice Log -->
 <div class="panel" id="panel-log">
-  <div class="sec-head"><span class="sec-num">Practice · 16</span><span class="sec-title">Practice Log</span></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.log">Practice · 16</span><span class="sec-title" data-i18n="sectitle.log">Practice Log</span></div>
   <div class="log-actions">
-    <button class="sbtn" onclick="logPractice()">+ Log Today</button>
-    <button class="sbtn" onclick="clearLog()">Clear All</button>
+    <button class="sbtn" onclick="logPractice()" data-i18n="btn.logtoday">+ Log Today</button>
+    <button class="sbtn" onclick="clearLog()" data-i18n="btn.clearall">Clear All</button>
   </div>
   <div class="ctrl-block">
-    <div class="ctrl-label">What did you practice?</div>
+    <div class="ctrl-label" data-i18n="ctrl.whatpracticed">What did you practice?</div>
     <div class="btn-row" style="margin-bottom:7px" id="log-scale-row"></div>
     <div class="btn-row" id="log-key-row"></div>
   </div>
   <div class="ctrl-block">
-    <div class="ctrl-label">Notes (optional)</div>
+    <div class="ctrl-label" data-i18n="ctrl.notes">Notes (optional)</div>
     <textarea id="log-notes" rows="2" style="width:100%;padding:6px 9px;border:1px solid var(--rule);background:var(--paper);color:var(--ink2);font-size:11px;font-family:var(--sans);border-radius:2px;resize:vertical;" placeholder="e.g. Worked on connecting E and A shapes..."></textarea>
   </div>
-  <div class="ctrl-label" style="margin-top:4px">History</div>
+  <div class="ctrl-label" style="margin-top:4px" data-i18n="ctrl.history">History</div>
   <div id="log-grid" class="log-grid"></div>
-  <div class="annotation">Consistency beats intensity — <strong>15 minutes every day</strong> is more effective than 2 hours once a week. Log every session, no matter how short.</div>
+  <div class="annotation" data-i18n="ann.log">Consistency beats intensity — <strong>15 minutes every day</strong> is more effective than 2 hours once a week. Log every session, no matter how short.</div>
 </div>
 
 <!-- 17 Quiz -->
 <div class="panel" id="panel-quiz">
-  <div class="sec-head"><span class="sec-num">Practice · 17</span><span class="sec-title">Fretboard Quiz</span></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.quiz">Practice · 17</span><span class="sec-title" data-i18n="sectitle.quiz">Fretboard Quiz</span></div>
   <div class="quiz-box">
-    <div class="quiz-question" id="quiz-q">Ready?</div>
-    <div class="quiz-sub" id="quiz-sub">Choose a quiz type below to begin</div>
+    <div class="quiz-question" id="quiz-q" data-i18n="quiz.ready">Ready?</div>
+    <div class="quiz-sub" id="quiz-sub" data-i18n="quiz.choosetype">Choose a quiz type below to begin</div>
     <div class="quiz-choices" id="quiz-choices"></div>
     <div class="quiz-result" id="quiz-result"></div>
     <div class="quiz-score" id="quiz-score"></div>
     <div class="btn-row" style="justify-content:center;gap:7px">
-      <button class="sbtn" onclick="startQuiz('note')">Note Names</button>
-      <button class="sbtn" onclick="startQuiz('degree')">Scale Degrees</button>
-      <button class="sbtn" onclick="startQuiz('shape')">Shape ID</button>
-      <button class="sbtn" onclick="startQuiz('interval')">Intervals</button>
+      <button class="sbtn" onclick="startQuiz('note')" data-i18n="btn.notenames">Note Names</button>
+      <button class="sbtn" onclick="startQuiz('degree')" data-i18n="btn.scaledeg">Scale Degrees</button>
+      <button class="sbtn" onclick="startQuiz('shape')" data-i18n="btn.shapeid">Shape ID</button>
+      <button class="sbtn" onclick="startQuiz('interval')" data-i18n="btn.intervals">Intervals</button>
     </div>
   </div>
-  <div class="annotation"><strong>Note Names</strong> — string + fret → note. <strong>Scale Degrees</strong> — degree in a scale context. <strong>Shape ID</strong> — name the major shape. <strong>Intervals</strong> — name the interval between two notes.</div>
+  <div class="annotation" data-i18n="ann.quiz"><strong>Note Names</strong> — string + fret → note. <strong>Scale Degrees</strong> — degree in a scale context. <strong>Shape ID</strong> — name the major shape. <strong>Intervals</strong> — name the interval between two notes.</div>
 </div>
 
 <!-- 18 Tuner -->
 <div class="panel" id="panel-tuner">
-  <div class="sec-head"><span class="sec-num">Audio · 18</span><span class="sec-title">Chromatic Tuner</span></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.tuner">Audio · 18</span><span class="sec-title" data-i18n="sectitle.tuner">Chromatic Tuner</span></div>
   <div class="tuner-box">
     <div class="tuner-note" id="tuner-note">—</div>
-    <div class="tuner-cents" id="tuner-cents" style="color:var(--ink3)">Play a note to begin</div>
+    <div class="tuner-cents" id="tuner-cents" style="color:var(--ink3)" data-i18n="tuner.playnote">Play a note to begin</div>
     <div class="tuner-bar-wrap">
       <div class="tuner-bar-fill" id="tuner-bar" style="left:50%;background:var(--ink4);"></div>
     </div>
     <div style="font-size:10px;color:var(--ink4);margin-bottom:14px;font-family:var(--mono)">
-      <span style="float:left">♭ flat</span><span style="display:block;text-align:center">in tune</span><span style="float:right">sharp ♯</span>
+      <span style="float:left" data-i18n="tuner.flat">♭ flat</span><span style="display:block;text-align:center" data-i18n="tuner.intune">in tune</span><span style="float:right" data-i18n="tuner.sharp">sharp ♯</span>
     </div>
     <div style="clear:both"></div>
-    <button class="tuner-btn" id="tuner-btn" onclick="toggleTuner()">Enable Microphone</button>
+    <button class="tuner-btn" id="tuner-btn" onclick="toggleTuner()" data-i18n="btn.enablemic">Enable Microphone</button>
   </div>
   <div class="ctrl-block">
-    <div class="ctrl-label">Reference pitches — standard tuning</div>
+    <div class="ctrl-label" data-i18n="ctrl.refpitches">Reference pitches — standard tuning</div>
     <div class="tuner-strings">
       <button class="tuner-ref" onclick="playRefNote(4,'E2')">E2 (low)</button>
       <button class="tuner-ref" onclick="playRefNote(9,'A2')">A2</button>
@@ -643,22 +648,22 @@ canvas{display:block;}
       <button class="tuner-ref" onclick="playRefNote(4,'E4')">E4 (high)</button>
     </div>
   </div>
-  <div class="annotation">Click <strong>Enable Microphone</strong> to start chromatic tuning. The tuner detects pitch in real time and shows how far you are from the nearest note in cents (100 cents = 1 semitone). Or click any reference pitch to hear the correct note.</div>
+  <div class="annotation" data-i18n="ann.tuner">Click <strong>Enable Microphone</strong> to start chromatic tuning. The tuner detects pitch in real time and shows how far you are from the nearest note in cents (100 cents = 1 semitone). Or click any reference pitch to hear the correct note.</div>
 </div>
 
 <!-- 19 Score→TAB -->
 <div class="panel" id="panel-tab">
-  <div class="sec-head"><span class="sec-num">Audio · 19</span><span class="sec-title">Sheet Music → Guitar TAB</span></div>
+  <div class="sec-head"><span class="sec-num" data-i18n="secnum.tab">Audio · 19</span><span class="sec-title" data-i18n="sectitle.tab">Sheet Music → Guitar TAB</span></div>
   <div class="upload-zone">
     <input type="file" id="score-upload" accept="image/*" onchange="handleFileChange(event)">
     <div class="upload-glyph">𝄞</div>
-    <div class="upload-label">Click to upload sheet music</div>
+    <div class="upload-label" data-i18n="upload.label">Click to upload sheet music</div>
     <div class="upload-hint">JPG · PNG · WEBP</div>
   </div>
   <img id="img-preview" alt="Preview">
   <div class="opt-row">
     <div class="opt-group">
-      <label>Tuning</label>
+      <label data-i18n="ctrl.tuning">Tuning</label>
       <select id="tuning-select">
         <option value="Standard tuning E A D G B e">Standard EADGBE</option>
         <option value="Drop D tuning D A D G B e">Drop D DADGBE</option>
@@ -679,13 +684,13 @@ canvas{display:block;}
   </div>
   <div id="convert-status"></div>
   <div id="tab-result"></div>
-  <div class="annotation" style="margin-top:14px">AI converts sheet music images to guitar TAB. <strong>Best for single-voice melodies.</strong> Requires internet connection.</div>
+  <div class="annotation" style="margin-top:14px" data-i18n="ann.tab">AI converts sheet music images to guitar TAB. <strong>Best for single-voice melodies.</strong> Requires internet connection.</div>
 </div>
 
 </div><!-- /page -->
 
 <div class="page-footer">
-  <div class="footer-text">Guitar Scale Navigator · Complete Edition</div>
+  <div class="footer-text" data-i18n="footer.title">Guitar Scale Navigator · Complete Edition</div>
   <div class="footer-text" style="font-style:normal;font-size:9px;font-family:var(--mono);letter-spacing:0.1em">STANDARD · EADGBE</div>
 </div>
 </div><!-- /book -->
@@ -699,6 +704,180 @@ const KEY_PITCH=[0,1,2,3,4,5,6,7,8,9,10,11];
 const OPEN_P=[4,9,2,7,11,4];
 const NOTE_NAMES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const SOLFEGE=['Do','Re','Mi','Fa','Sol','La','Si'];
+
+// ═══════════════════════════════════════════
+// I18N
+// ═══════════════════════════════════════════
+let currentLang='en';
+const TRANSLATIONS={
+  en:{
+    'header.pre':'A Complete Navigator for the Fretboard',
+    'header.sub':'Complete Edition · All Scales · All Keys · All Tools',
+    'header.subtitle':'Scales &amp; Modes · Chord Library · Theory Tools · Practice Tools · Audio Tools · Score→TAB',
+    'cat.scales':'Scales','cat.chords':'Chords','cat.theory':'Theory','cat.practice':'Practice','cat.audio':'Audio',
+    'tab.major':'Major','tab.minor':'Minor Penta','tab.blues':'Blues','tab.natminor':'Nat. Minor','tab.harmminor':'Harm. Minor',
+    'tab.modes':'Modes','tab.nps':'3NPS','tab.fretmap':'Fretboard Map','tab.chords':'Chord Diagrams',
+    'tab.prog':'Chord Progressions','tab.scalechord':'Scale→Chord Map','tab.compare':'Scale Compare',
+    'tab.intervals':'Intervals','tab.capo':'Capo Calculator','tab.metro':'Metronome',
+    'tab.log':'Practice Log','tab.quiz':'Quiz','tab.tuner':'Tuner','tab.tab':'Score→TAB',
+    'secnum.major':'Scales · 1','sectitle.major':'Major Scale — 5 Modal Shapes',
+    'secnum.minor':'Scales · 2','sectitle.minor':'Minor Pentatonic Scale',
+    'secnum.blues':'Scales · 3','sectitle.blues':'Blues Scale',
+    'secnum.natminor':'Scales · 4','sectitle.natminor':'Natural Minor (Aeolian)',
+    'secnum.harmminor':'Scales · 5','sectitle.harmminor':'Harmonic Minor Scale',
+    'secnum.modes':'Scales · 6','sectitle.modes':'Modal Scales',
+    'secnum.nps':'Scales · 7','sectitle.nps':'3 Notes Per String',
+    'secnum.fretmap':'Scales · 8','sectitle.fretmap':'Full Fretboard Map',
+    'secnum.chords':'Chords · 9','sectitle.chords':'Chord Diagrams',
+    'secnum.prog':'Chords · 10','sectitle.prog':'Chord Progressions',
+    'secnum.scalechord':'Chords · 11','sectitle.scalechord':'Scale → Chord Compatibility',
+    'secnum.compare':'Theory · 12','sectitle.compare':'Scale Comparison',
+    'secnum.intervals':'Theory · 13','sectitle.intervals':'Interval Calculator',
+    'secnum.capo':'Theory · 14','sectitle.capo':'Capo Calculator',
+    'secnum.metro':'Practice · 15','sectitle.metro':'Metronome',
+    'secnum.log':'Practice · 16','sectitle.log':'Practice Log',
+    'secnum.quiz':'Practice · 17','sectitle.quiz':'Fretboard Quiz',
+    'secnum.tuner':'Audio · 18','sectitle.tuner':'Chromatic Tuner',
+    'secnum.tab':'Audio · 19','sectitle.tab':'Sheet Music → Guitar TAB',
+    'ctrl.key':'Key','ctrl.shape':'Shape','ctrl.label':'Label:','ctrl.position':'Position','ctrl.mode':'Mode',
+    'ctrl.chord':'Chord','ctrl.type':'Type','ctrl.highlight':'Highlight note','ctrl.fretrange':'Fret range',
+    'ctrl.scaletype':'Scale type','ctrl.commonprog':'Common progressions','ctrl.timesig':'Time Sig',
+    'ctrl.feel':'Feel','ctrl.tempopresets':'Tempo presets','ctrl.whatpracticed':'What did you practice?',
+    'ctrl.notes':'Notes (optional)','ctrl.history':'History','ctrl.seltwonotes':'Select two notes',
+    'ctrl.origkey':'Original key (no capo)','ctrl.targetkey':'Target key (what you want to sound like)',
+    'ctrl.refpitches':'Reference pitches — standard tuning','ctrl.tuning':'Tuning','ctrl.scale':'Scale',
+    'btn.note':'Note','btn.solfege':'Solfège','btn.degree':'Degree','btn.start':'Start','btn.stop':'Stop',
+    'btn.logtoday':'+ Log Today','btn.clearall':'Clear All','btn.notenames':'Note Names',
+    'btn.scaledeg':'Scale Degrees','btn.shapeid':'Shape ID','btn.intervals':'Intervals',
+    'btn.enablemic':'Enable Microphone','btn.disablemic':'Disable Microphone','btn.convert':'Convert',
+    'btn.straight':'Straight','btn.shuffle':'Shuffle','btn.triplet':'Triplet',
+    'btn.frets012':'Frets 0–12','btn.frets1224':'Frets 12–24','btn.fullneck':'Full neck',
+    'conn.major':'Shape connections — full fretboard','conn.minor':'Five shape connections',
+    'legend.highlighted':'Highlighted note','legend.other':'Other notes','legend.root':'Root',
+    'legend.inboth':'In both scales','legend.scaleaonly':'Scale A only','legend.scalebonly':'Scale B only',
+    'legend.3rd':'3rd','legend.5th':'5th','legend.7th':'7th',
+    'compare.scalea':'Scale A','compare.scaleb':'Scale B',
+    'th.chord':'Chord','th.type':'Type','th.compat':'Compatibility','th.tip':'Tip',
+    'quiz.ready':'Ready?','quiz.choosetype':'Choose a quiz type below to begin',
+    'upload.label':'Click to upload sheet music',
+    'tuner.playnote':'Play a note to begin','tuner.flat':'♭ flat','tuner.intune':'in tune','tuner.sharp':'sharp ♯',
+    'footer.title':'Guitar Scale Navigator · Complete Edition',
+    'misc.allnotes':'All notes','misc.selectmode':'Select a mode above.',
+    'ann.major':'Five shapes link end-to-end across the neck. <strong>To change key, shift the whole pattern</strong> — the shape stays identical. Each shape is named after its characteristic note.',
+    'ann.minor':'Contains <strong>1, ♭3, 4, 5, ♭7</strong> — the core of blues, rock, and metal improvisation. Five CAGED shapes connect end-to-end across the neck.',
+    'ann.blues':'Minor pentatonic + <strong>♭5 (the "blue note")</strong> = 6 notes. The ♭5 is the signature tension of blues and rock — use string bends on it for maximum expression.',
+    'ann.natminor':'Formula: <strong>1, 2, ♭3, 4, 5, ♭6, ♭7</strong>. A minor is the relative minor of C major — same notes, different tonal center.',
+    'ann.harmminor':'Natural minor with a <strong>raised 7th</strong>: 1, 2, ♭3, 4, 5, ♭6, 7. The raised 7 creates a dramatic "exotic" sound — classical, flamenco, metal, Middle-Eastern.',
+    'ann.modes':'All 7 modes use the same notes as the major scale — just starting on a different degree. Each has a distinct character: <strong>Dorian</strong> = jazz/funk, <strong>Phrygian</strong> = metal/flamenco, <strong>Lydian</strong> = dreamy, <strong>Mixolydian</strong> = blues-rock.',
+    'ann.nps':'3 notes per string, 7 positions linking end-to-end. <strong>Essential for speed and legato</strong> — the uniform 3-note pattern makes alternate picking highly efficient.',
+    'ann.fretmap':'The complete fretboard showing every note from fret 0 to 24. Select a note to <strong>highlight all its positions</strong> across the neck — essential for learning note locations.',
+    'ann.chords':'Common chord voicings. Open position chords use open strings for a full sound. Barre chords are <strong>moveable shapes</strong> — the same fingering works in every key.',
+    'ann.prog':'All chords naturally available in this key and scale. Roman numerals show the degree: <strong>uppercase = major</strong>, lowercase = minor, ° = diminished. Click any chord to see its notes.',
+    'ann.scalechord':'Shows which chords work well with a given scale. <strong>Green = excellent fit</strong> (most scale notes fit the chord), amber = workable, use with care.',
+    'ann.compare':'Compare any two scales side by side. Shared notes let you transition smoothly between scales during improvisation.',
+    'ann.capo':'Use a capo to play in a different key using familiar open chord shapes. <strong>Capo on fret X</strong> means your open strings now sound X semitones higher.',
+    'ann.metro':'Start slow (60 BPM), master the shape, then increase by 5 BPM at a time. <strong>When you change keys, return to slow tempo</strong> and build up again.',
+    'ann.log':'Consistency beats intensity — <strong>15 minutes every day</strong> is more effective than 2 hours once a week. Log every session, no matter how short.',
+    'ann.quiz':'<strong>Note Names</strong> — string + fret → note. <strong>Scale Degrees</strong> — degree in a scale context. <strong>Shape ID</strong> — name the major shape. <strong>Intervals</strong> — name the interval between two notes.',
+    'ann.tuner':'Click <strong>Enable Microphone</strong> to start chromatic tuning. The tuner detects pitch in real time and shows how far you are from the nearest note in cents (100 cents = 1 semitone). Or click any reference pitch to hear the correct note.',
+    'ann.tab':'AI converts sheet music images to guitar TAB. <strong>Best for single-voice melodies.</strong> Requires internet connection.',
+  },
+  zh:{
+    'header.pre':'完整吉他指板导航工具',
+    'header.sub':'完整版 · 全音阶 · 全调 · 全工具',
+    'header.subtitle':'音阶与调式 · 和弦库 · 乐理工具 · 练习工具 · 音频工具 · 乐谱→TAB',
+    'cat.scales':'音阶','cat.chords':'和弦','cat.theory':'乐理','cat.practice':'练习','cat.audio':'音频',
+    'tab.major':'大调','tab.minor':'小调五声','tab.blues':'蓝调','tab.natminor':'自然小调','tab.harmminor':'和声小调',
+    'tab.modes':'调式','tab.nps':'每弦3音','tab.fretmap':'指板图','tab.chords':'和弦图',
+    'tab.prog':'和弦进行','tab.scalechord':'音阶和弦对照','tab.compare':'音阶对比',
+    'tab.intervals':'音程计算','tab.capo':'变调夹','tab.metro':'节拍器',
+    'tab.log':'练习日志','tab.quiz':'测验','tab.tuner':'调音器','tab.tab':'乐谱→TAB',
+    'secnum.major':'音阶 · 1','sectitle.major':'大调音阶 — 5种指型',
+    'secnum.minor':'音阶 · 2','sectitle.minor':'小调五声音阶',
+    'secnum.blues':'音阶 · 3','sectitle.blues':'蓝调音阶',
+    'secnum.natminor':'音阶 · 4','sectitle.natminor':'自然小调（爱奥利亚）',
+    'secnum.harmminor':'音阶 · 5','sectitle.harmminor':'和声小调音阶',
+    'secnum.modes':'音阶 · 6','sectitle.modes':'调式音阶',
+    'secnum.nps':'音阶 · 7','sectitle.nps':'每弦3音',
+    'secnum.fretmap':'音阶 · 8','sectitle.fretmap':'完整指板图',
+    'secnum.chords':'和弦 · 9','sectitle.chords':'和弦图谱',
+    'secnum.prog':'和弦 · 10','sectitle.prog':'和弦进行',
+    'secnum.scalechord':'和弦 · 11','sectitle.scalechord':'音阶 → 和弦对照',
+    'secnum.compare':'乐理 · 12','sectitle.compare':'音阶对比',
+    'secnum.intervals':'乐理 · 13','sectitle.intervals':'音程计算器',
+    'secnum.capo':'乐理 · 14','sectitle.capo':'变调夹计算器',
+    'secnum.metro':'练习 · 15','sectitle.metro':'节拍器',
+    'secnum.log':'练习 · 16','sectitle.log':'练习日志',
+    'secnum.quiz':'练习 · 17','sectitle.quiz':'指板测验',
+    'secnum.tuner':'音频 · 18','sectitle.tuner':'半音调音器',
+    'secnum.tab':'音频 · 19','sectitle.tab':'乐谱 → 吉他TAB',
+    'ctrl.key':'调','ctrl.shape':'指型','ctrl.label':'标注：','ctrl.position':'把位','ctrl.mode':'调式',
+    'ctrl.chord':'和弦','ctrl.type':'类型','ctrl.highlight':'高亮音符','ctrl.fretrange':'品格范围',
+    'ctrl.scaletype':'音阶类型','ctrl.commonprog':'常用和弦进行','ctrl.timesig':'拍号',
+    'ctrl.feel':'律动','ctrl.tempopresets':'速度预设','ctrl.whatpracticed':'今天练了什么？',
+    'ctrl.notes':'备注（可选）','ctrl.history':'历史记录','ctrl.seltwonotes':'选择两个音符',
+    'ctrl.origkey':'原始调（无变调夹）','ctrl.targetkey':'目标调（想弹的调）',
+    'ctrl.refpitches':'参考音高 — 标准调弦','ctrl.tuning':'调弦','ctrl.scale':'音阶',
+    'btn.note':'音名','btn.solfege':'唱名','btn.degree':'级数','btn.start':'开始','btn.stop':'停止',
+    'btn.logtoday':'+ 记录今天','btn.clearall':'清除全部','btn.notenames':'音名',
+    'btn.scaledeg':'级数','btn.shapeid':'指型名','btn.intervals':'音程',
+    'btn.enablemic':'开启麦克风','btn.disablemic':'关闭麦克风','btn.convert':'转换',
+    'btn.straight':'直拍','btn.shuffle':'摇摆','btn.triplet':'三连音',
+    'btn.frets012':'品格 0–12','btn.frets1224':'品格 12–24','btn.fullneck':'完整指板',
+    'conn.major':'指型连接 — 完整指板','conn.minor':'五种指型连接',
+    'legend.highlighted':'高亮音符','legend.other':'其他音符','legend.root':'根音',
+    'legend.inboth':'两者共有','legend.scaleaonly':'仅音阶A','legend.scalebonly':'仅音阶B',
+    'legend.3rd':'3度音','legend.5th':'5度音','legend.7th':'7度音',
+    'compare.scalea':'音阶 A','compare.scaleb':'音阶 B',
+    'th.chord':'和弦','th.type':'类型','th.compat':'兼容性','th.tip':'提示',
+    'quiz.ready':'准备好了吗？','quiz.choosetype':'在下方选择测验类型开始',
+    'upload.label':'点击上传乐谱图片',
+    'tuner.playnote':'演奏一个音符开始','tuner.flat':'♭ 偏低','tuner.intune':'准确','tuner.sharp':'偏高 ♯',
+    'footer.title':'吉他音阶导航 · 完整版',
+    'misc.allnotes':'所有音符','misc.selectmode':'在上方选择调式。',
+    'ann.major':'5种指型首尾相连覆盖整个指板。<strong>换调只需平移整个图形</strong>——指型不变，只是位置移动。每种指型以其特征音命名。',
+    'ann.minor':'包含 <strong>1, ♭3, 4, 5, ♭7</strong>——蓝调、摇滚、金属即兴的核心。5种CAGED指型首尾相连覆盖全颈。',
+    'ann.blues':'小调五声 + <strong>♭5（"蓝调音"）</strong>= 6个音。♭5是蓝调和摇滚的标志性张力音——在这个音上做弦推效果最佳。',
+    'ann.natminor':'公式：<strong>1, 2, ♭3, 4, 5, ♭6, ♭7</strong>。A小调是C大调的关系小调——音符相同，音调中心不同。',
+    'ann.harmminor':'自然小调 + <strong>升高的7级</strong>：1, 2, ♭3, 4, 5, ♭6, 7。升高的7级创造出戏剧性的"异域"音色——古典、弗拉门戈、金属、中东风格。',
+    'ann.modes':'7种调式与大调使用相同的音符——只是从不同的级数开始。各有独特个性：<strong>多利亚</strong> = 爵士/放克，<strong>弗里几亚</strong> = 金属/弗拉门戈，<strong>利底亚</strong> = 梦幻，<strong>混合利底亚</strong> = 蓝调摇滚。',
+    'ann.nps':'每根弦3个音，7个把位首尾相连。<strong>速度与连奏的必学技巧</strong>——统一的3音图形使交替拨弦效率极高。',
+    'ann.fretmap':'显示0-24品所有音符的完整指板图。点击音符可在整个指板上<strong>高亮显示所有位置</strong>——学习音符位置的必备工具。',
+    'ann.chords':'常用和弦指法。空弦和弦利用空弦获得丰满音色。横按和弦是<strong>可移动指型</strong>——同一指法适用于所有调。',
+    'ann.prog':'该调和音阶中自然可用的所有和弦。罗马数字表示级数：<strong>大写=大和弦</strong>，小写=小和弦，°=减和弦。点击任意和弦查看音符。',
+    'ann.scalechord':'显示哪些和弦与特定音阶搭配良好。<strong>绿色=完美匹配</strong>（大部分音阶音符与和弦吻合），琥珀色=可用，需谨慎使用。',
+    'ann.compare':'并排对比任意两种音阶。共同音符让你在即兴演奏中顺滑地切换音阶。',
+    'ann.capo':'使用变调夹可以用熟悉的空弦和弦形状演奏不同的调。<strong>夹在X品</strong>意味着你的空弦音高升高X个半音。',
+    'ann.metro':'从慢速开始（60 BPM），掌握指型后每次提升5 BPM。<strong>换调时回到慢速</strong>重新练起。',
+    'ann.log':'持续性胜过强度——<strong>每天15分钟</strong>比一周一次2小时更有效。每次练习都要记录，无论多短。',
+    'ann.quiz':'<strong>音名</strong>——弦+品位→音符。<strong>级数</strong>——音阶中的级数。<strong>指型名</strong>——说出大调指型名称。<strong>音程</strong>——说出两个音之间的音程。',
+    'ann.tuner':'点击<strong>开启麦克风</strong>开始半音调音。调音器实时检测音高，以音分显示与最近音符的偏差（100音分=1个半音）。或点击参考音高听正确的音。',
+    'ann.tab':'AI将乐谱图片转换为吉他TAB谱。<strong>最适合单声部旋律。</strong>需要网络连接。',
+  }
+};
+
+function t(key){return(TRANSLATIONS[currentLang]||TRANSLATIONS.en)[key]||TRANSLATIONS.en[key]||key;}
+
+function toggleLang(){
+  currentLang=currentLang==='en'?'zh':'en';
+  document.getElementById('lang-btn').textContent=currentLang==='en'?'中文':'EN';
+  // Update innerHTML elements
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const val=t(el.dataset.i18n);
+    if(val!==undefined)el.innerHTML=val;
+  });
+  // Update text-only elements (preserve child <span> like ch-num)
+  document.querySelectorAll('[data-i18n-text]').forEach(el=>{
+    const val=t(el.dataset.i18nText);
+    if(val===undefined)return;
+    for(let i=el.childNodes.length-1;i>=0;i--){
+      if(el.childNodes[i].nodeType===3){el.childNodes[i].textContent=val;break;}
+    }
+  });
+  // Keep metro button in sync with running state
+  const mb=document.getElementById('metro-btn');
+  if(mb)mb.textContent=metroRunning?t('btn.stop'):t('btn.start');
+}
 
 const SCALES={
   major:     {semi:[0,2,4,5,7,9,11],degs:['1','2','3','4','5','6','7'],name:'Major'},
@@ -1418,7 +1597,7 @@ function stopMetro(){
   if(metroScheduler)clearTimeout(metroScheduler);
   metroScheduler=null;
   if(metroTimer){clearInterval(metroTimer);metroTimer=null;}
-  document.getElementById('metro-btn').textContent='Start';
+  document.getElementById('metro-btn').textContent=t('btn.start');
   document.getElementById('metro-btn').classList.remove('running');
   document.querySelectorAll('.beat-dot').forEach(d=>d.classList.remove('active'));
 }
@@ -1428,7 +1607,7 @@ function toggleMetro(){
     stopMetro();
   } else {
     currentBeat=0;
-    document.getElementById('metro-btn').textContent='Stop';
+    document.getElementById('metro-btn').textContent=t('btn.stop');
     document.getElementById('metro-btn').classList.add('running');
     scheduleBeats();
   }
