@@ -10311,10 +10311,12 @@ function stopMetro(){
   document.querySelectorAll('#beat-visual .beat-dot').forEach(d=>d.classList.remove('active'));
 }
 
-function toggleMetro(){
+async function toggleMetro(){
   if(metroRunning){
     stopMetro();
   } else {
+    if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    await audioCtx.resume();
     currentBeat=0;
     document.getElementById('metro-btn').textContent=t('btn.stop');
     document.getElementById('metro-btn').classList.add('running');
@@ -10821,7 +10823,7 @@ function toggleFifthsPractice(){
   if(fpRunning)stopFP(); else startFP();
 }
 
-function startFP(){
+async function startFP(){
   const bpm=Math.max(40,Math.min(200,parseInt(document.getElementById('fp-bpm').value)||60));
   const bars=Math.max(1,parseInt(document.getElementById('fp-bars').value)||2);
   const dotsEl=document.getElementById('fp-beat-dots');
@@ -10831,6 +10833,8 @@ function startFP(){
     d.className='beat-dot'+(i===0?' accent-dot':'');
     dotsEl.appendChild(d);
   }
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  await audioCtx.resume();
   fpRunning=true;
   fifthsSel=0;
   drawFifthsCircle();
