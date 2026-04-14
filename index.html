@@ -9567,49 +9567,52 @@ function changeVoicing(dir){
 function drawChordSvg(pos){
   const container=document.getElementById('chord-svg-wrap');
   container.innerHTML='';
-  if(!window.svguitar){drawChordCanvas(container,pos);return;}
-  // Convert tombatossals → svguitar format
-  // tomba: frets[0]=E(low), frets[5]=e(high); svguitar: string 1=e(high), 6=E(low)
-  const fingers=[];
-  for(let i=0;i<6;i++){
-    const fret=pos.frets[i];
-    const s=6-i; // svguitar: string 1=rightmost=e(high), string 6=leftmost=E(low)
-    fingers.push(fret===-1?[s,'x']:[s,fret]);
+  // Pure inline SVG renderer — no external library dependency
+  // Works in hidden containers (display:none) and all mobile browsers
+  const W=190,H=220,sx=25,sy=48,fw=24,fh=26,nr=4,ns=6;
+  const gw=(ns-1)*fw,gh=nr*fh;
+  const{frets,baseFret=1,barres=[]}=pos;
+  const p=[];
+  // String lines (vertical) — tomba: i=0→E(low)=left, i=5→e(high)=right
+  for(let i=0;i<ns;i++){
+    const x=sx+i*fw;
+    p.push(`<line x1="${x}" y1="${sy}" x2="${x}" y2="${sy+gh}" stroke="rgba(28,24,20,0.3)" stroke-width="0.8"/>`);
   }
-  // Barres: tombatossals barres is array of fret numbers
-  const barres=(pos.barres||[]).map(barreFret=>{
-    const barredStrings=[];
-    for(let i=0;i<6;i++){if(pos.frets[i]===barreFret)barredStrings.push(6-i);}
-    if(barredStrings.length<2)return null;
-    return{fromString:Math.max(...barredStrings),toString:Math.min(...barredStrings),fret:barreFret};
-  }).filter(Boolean);
-  try{
-    new svguitar.SVGuitarChord(container)
-      .configure({
-        strings:6,frets:4,
-        position:pos.baseFret||1,
-        tuning:[],
-        showTuning:false,
-        strokeColor:'#4a3f35',
-        stringColor:'rgba(28,24,20,0.35)',
-        fretColor:'rgba(28,24,20,0.12)',
-        nutColor:'#4a3f35',
-        nutSize:0.1,
-        dotColor:'#1c1814',
-        dotStrokeColor:'transparent',
-        dotTextColor:'#f5f0e8',
-        dotSize:0.72,
-        dotStrokeWidth:0,
-        fretSize:1.5,
-        sidePadding:0.18,
-        titleFontSize:0,
-        fretLabelFontSize:14,
-        backgroundColor:'transparent',
-        width:190,height:230,
-      })
-      .chord({fingers,barres})
-      .draw();
-  }catch(e){drawChordCanvas(container,pos);}
+  // Nut or base fret label
+  if(baseFret===1){
+    p.push(`<rect x="${sx}" y="${sy-4}" width="${gw}" height="4" fill="#4a3f35" rx="1"/>`);
+  }else{
+    p.push(`<line x1="${sx}" y1="${sy}" x2="${sx+gw}" y2="${sy}" stroke="rgba(28,24,20,0.2)" stroke-width="0.8"/>`);
+    p.push(`<text x="${sx+gw+6}" y="${sy+fh/2+4}" font-size="9" font-family="monospace" fill="#4a3f35">${baseFret}fr</text>`);
+  }
+  // Fret lines (horizontal)
+  for(let i=1;i<=nr;i++){
+    const y=sy+i*fh;
+    p.push(`<line x1="${sx}" y1="${y}" x2="${sx+gw}" y2="${y}" stroke="rgba(28,24,20,0.18)" stroke-width="0.8"/>`);
+  }
+  // Barres (drawn before dots so dots render on top)
+  barres.forEach(bf=>{
+    const idxs=frets.reduce((a,f,i)=>f===bf?[...a,i]:a,[]);
+    if(idxs.length<2)return;
+    const x1=sx+Math.min(...idxs)*fw,x2=sx+Math.max(...idxs)*fw;
+    const cy=sy+(bf-0.5)*fh;
+    p.push(`<line x1="${x1}" y1="${cy}" x2="${x2}" y2="${cy}" stroke="#1c1814" stroke-width="16" stroke-linecap="round"/>`);
+  });
+  // Notes
+  frets.forEach((f,i)=>{
+    const x=sx+i*fw;
+    if(f===-1){
+      const oy=sy-13,r=5;
+      p.push(`<line x1="${x-r}" y1="${oy-r}" x2="${x+r}" y2="${oy+r}" stroke="rgba(28,24,20,0.55)" stroke-width="1.5"/>`);
+      p.push(`<line x1="${x+r}" y1="${oy-r}" x2="${x-r}" y2="${oy+r}" stroke="rgba(28,24,20,0.55)" stroke-width="1.5"/>`);
+    }else if(f===0){
+      p.push(`<circle cx="${x}" cy="${sy-13}" r="5" fill="none" stroke="rgba(28,24,20,0.55)" stroke-width="1.5"/>`);
+    }else{
+      const cy=sy+(f-0.5)*fh;
+      p.push(`<circle cx="${x}" cy="${cy}" r="10" fill="#1c1814"/>`);
+    }
+  });
+  container.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">${p.join('')}</svg>`;
 }
 
 function drawChordCanvas(container,pos){
