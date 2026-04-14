@@ -1335,7 +1335,7 @@ function buildIntTable(){
 // METRONOME
 // ═══════════════════════════════════════════
 let bpm=80,beatsPerMeasure=2,currentBeat=0,metroTimer=null,audioCtx=null,feel='straight';
-function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
 
 function playClick(accent){
   const ctx=getACtx(),osc=ctx.createOscillator(),gain=ctx.createGain();
