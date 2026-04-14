@@ -10205,7 +10205,25 @@ function buildIntTable(){
 // METRONOME
 // ═══════════════════════════════════════════
 let bpm=80,beatsPerMeasure=2,currentBeat=0,metroTimer=null,audioCtx=null,feel='straight';
-function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
+
+// iOS/Android require AudioContext to be created & unlocked inside a user gesture.
+// We play a silent buffer on the first touch to unlock it for all future calls.
+function unlockAudio(){
+  if(audioCtx) return;
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  const buf=audioCtx.createBuffer(1,1,audioCtx.sampleRate);
+  const src=audioCtx.createBufferSource();
+  src.buffer=buf; src.connect(audioCtx.destination); src.start(0);
+  audioCtx.resume();
+}
+document.addEventListener('touchstart', unlockAudio, {once:true, passive:true});
+document.addEventListener('click', unlockAudio, {once:true});
+
+function getACtx(){
+  if(!audioCtx) unlockAudio();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  return audioCtx;
+}
 
 function playClick(accent){
   const ctx=getACtx(),osc=ctx.createOscillator(),gain=ctx.createGain();
